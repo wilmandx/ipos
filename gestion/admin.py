@@ -1,21 +1,27 @@
 from django.contrib import admin
-from gestion.models import Categoria,Producto
+from gestion.models import ValorTipo,Producto,DivPolitica
+from django import forms
 # Register your models here.
 
-class ProductoInline(admin.TabularInline):
+admin.site.register(ValorTipo)
+admin.site.register(Producto)
+admin.site.register(DivPolitica)
+
+'''class ProductoInline(admin.TabularInline):
     model = Producto
     extra = 1
 
-class CategoriaAdmin(admin.ModelAdmin):
-	list_display = ('nombre','descripcion')
+class TipoAdmin(admin.ModelAdmin):
+	list_display = ('nombre','descripcion','padre','activo')
 	search_fields=('nombre',)
-	inlines = [ProductoInline]
+	inlines = [ProductoInline]'''
 
 class ProductoAdmin(admin.ModelAdmin):
-	list_display = ('nombre','descripcion','precio',)
+	list_display = ('nombre','Marca','precio','valorVenta','iva','descripcion','foto')
 	search_fields=('nombre',)
+	#file = forms.FileField()
 
 
 
-admin.site.register(Categoria,CategoriaAdmin)
-admin.site.register(Producto,ProductoAdmin)
+'''#admin.site.register(ValorTipo,TipoAdmin)
+admin.site.register(Producto,ProductoAdmin)'''
