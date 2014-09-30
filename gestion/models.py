@@ -7,6 +7,9 @@ class ValorTipo(models.Model):
 	descripcion = models.CharField(max_length=3000)
 	padre = models.ForeignKey('self',blank=True, null=True,)
 	activo = models.BooleanField(default=True)
+	class Meta:
+		verbose_name = u'Marcas, Categorias, Tipos de pago'
+		verbose_name_plural = u'Marcas, Categorias, Tipos de pago'
 	def __str__(self):
 		return self.nombre
 
@@ -27,3 +30,8 @@ class DivPolitica(models.Model):
 	nombre = models.CharField(max_length=100)
 	descripcion = models.CharField(max_length=300)
 	idPadre = models.ForeignKey('self',blank=True, null=True,)	
+	class Meta:
+		verbose_name = u'Ciudad'
+		verbose_name_plural = u'Ciudades'
+	def __str__(self):
+		return self.nombre
