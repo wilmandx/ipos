@@ -1,23 +1,32 @@
 {% extends "mobile_layout.html" %}
 {% block content %}
 
-<div data-role="page" id="photos">
-	<header data-role="header">
-		<h1>Pedido en linea</h1>
-	</header>
-	<article data-role="content">
-		<ul data-role="listview"  data-filter="true">
-		{% for key,categoria in list_categories.items %}
-			<ul>
-				<h1>{{categoria.tipoCategoria.nombre}}</h1>
-				{% for producto in categoria.listProductos %}
-					<li>{{producto.nombre}} </li>
-				{% endfor %}
-			</ul>
-		{% endfor %}
-		</ul>
-	</article>
-	<footer data-role="footer" data-position="fixed">
+<div data-role="page" id="main">
+	<div class="ui-header ui-bar-a" data-swatch="a" data-theme="a" data-form="ui-bar-a" data-role="header" role="banner" style="background:#ffe9a8" data-position="fixed">
+		<a class="ui-btn-left ui-btn-corner-all ui-btn ui-icon-bars ui-btn-icon-notext" title=" Home " data-form="ui-icon" data-role="button" role="button"> Home </a>
+		<h1 class="ui-title" tabindex="0" role="heading" aria-level="1">Pedidos</h1>
+		
+	</div>
+	<div data-role="content"> 	
+		<div><input data-type="search" id="searchForCollapsibleSetChildren"></div>	
+		<div data-role="collapsible-set" data-filter="true" data-children="> div, > div div ul li" data-inset="true" id="collapsiblesetForFilterChildren" data-input="#searchForCollapsibleSetChildren">		
+			{% for key,categoria in list_categories.items %}			
+			<div data-role="collapsible" data-inset="false" data-mini="true" data-iconpos="right" data-collapsed-icon="carat-d" and data-expanded-icon="carat-u">		    
+			    <h3>{{categoria.tipoCategoria.nombre}}</h3>		    
+				    <ul data-role="listview" data-inset="false">
+			    	{% for producto in categoria.listProductos %}
+				        <li>
+				        	<span style="width:80%; display:inline-block" id="{{producto.id}}">{{producto.nombre}}</span>
+				        	<span style="width:20%; display:inline-block"> ${{producto.precio}}</span>
+				        </li>
+			        {% endfor %}
+				    </ul>			
+			</div><!-- /collapsible -->			
+			{% endfor %}			
+		</div>
+	</div>
+ 
+<footer data-role="footer" data-position="fixed">
 		<nav data-role="navbar">
 			<ul>
 				<li><a href="Photos" data-icon="grid">Modificar</a></li>
@@ -25,23 +34,6 @@
 			</ul>
 		</nav>
 	</footer>
-</div><!-- Page Photos -->
-
-	<div data-role="page" id="dog">
-		<header data-role="header">
-			<h1>Min Pin</h1>
-			<a href="#photos" data-icon="grid" data-iconpos="notext">Photos</a>
-		</header>
-		<img src="images/doggie.jpg" class="fullscreen" alt="Min Pin" />
-	</div><!-- Page Dog -->
-	
-	<div data-role="page" id="gummies">
-		<header data-role="header">
-			<h1>Gummy Bears</h1>
-			<a href="#photos" data-icon="grid" data-iconpos="notext">Photos</a>
-		</header>
-		<img src="images/gummies.jpg" class="fullscreen" alt="Gummy Bears" />
-	</div><!-- Page Gummy Bears --> 
-
+</div>
 
 {% endblock %}

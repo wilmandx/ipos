@@ -1,100 +1,11 @@
 {% extends "base_layout.html" %}
 {% block content %}
 <div id="b_herramientas" class="row">
-	<div col-md-4iv class="col-lg-12 page-header">
-		<button type="button" class="btn btn-default btn-lg">
+  <div col-md-4iv class="col-lg-12 page-header">
+    <button type="button" class="btn btn-default btn-lg">
     <span class="glyphicon glyphicon-plus"></span> Nuevo</button>
     <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#venta">
     <span class="glyphicon glyphicon-print"></span> Imprimir</button>
-
-<!-- Mostrar factura -->
-<div class="modal fade" id="venta" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-        <h4 class="modal-title" id="myModalLabel">Factura de venta</h4>
-      </div>
-      <div class="modal-body">
-        <p>
-          Empresa <br/>
-          Nit <br/>
-          Dirección <br/>
-          Telefono <br/>
-        </p>
-        <p>
-          Cliente:
-          CC/Nit: 
-          Dirección:
-          Teléfono:
-        </p>
-        <table class="table-responsive">
-          <tr><th>Producto</th><th>Cant.</th><th>Valor</th></tr>
-          <tr><td>Gaseosa 350</td><td>1</td><td>1500</td></tr>
-          <tr><td>Pandebono</td><td>1</td><td>1000</td></tr>
-          <tr><td>Empanada</td><td>1</td><td>800</td></tr>
-          <tr><td colspan="2">Total</td><td>3300</td></tr>
-        </table>  
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
-        <button type="button" class="btn btn-primary">Imprimir</button>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- Datos buscar producto-->
-
-<div class="modal fade" id="buscar_p" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <form >
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Cerrar</span></button>
-        <h4 class="modal-title" id="myModalLabel">Productos</h4>
-      </div>
-      <div class="modal-body">
-         <div class="input-group">
-          <label class="sr-only" for="producto">Producto</label>
-                <input class="form-control" type="text" placeholder="Producto" size="40">
-                <span class="input-group-btn"><button class="btn btn-primary">Buscar</button></span>
-         </div>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
-      </div>
-    </div>
-  </form>
-  </div>
-</div>
-
-<!-- Datos buscar cliente-->
-
-<div class="modal fade" id="cliente" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <form >
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Cerrar</span></button>
-        <h4 class="modal-title" id="myModalLabel">Clientes</h4>
-      </div>
-      <div class="modal-body">
-         <div class="input-group">
-          <label class="sr-only" for="cliente">Cliente</label>
-                <input class="form-control" type="text" placeholder="Cliente" size="40">
-                <span class="input-group-btn"><button class="btn btn-primary">Buscar</button></span>
-         </div>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
-      </div>
-    </div>
-  </form>
-  </div>
-</div>
-	</div>
-</div>
 
 <form class="form-inline" role="form" action="">
   <div id="formulario" class="row">
@@ -104,50 +15,91 @@
               <h3 class="panel-title"><font size="5">Modulo Venta.</font></h3>
             </div>
           <div class="panel-body">
-            <div>Número Pedido: <strong>1</strong></div>
+            <div class = "col-lg-12">
+              <div class="col-sm-6">
+                <font size="5">Número Pedido: 1</font>
+              </div>  
+            </div>
+
               <div class="col-lg-12">
-                <div class="form-group input-group">
-                  <label class="sr-only" for="mesa_p">Mesa</label>
-                  <input type="text" class="form-control" id="mesa_p" placeholder="Mesa" size="4">
-                </div>
-                <div class="form-group">
-                  <label class="sr-only" for="cliente">cliente</label>
-                  <input type="text" class="form-control" id="cliente" placeholder="Cliente" size="35" readonly="True">
-                  <button type="button" class="btn btn-default btn-sm" data-toggle="modal" data-target="#cliente">
-                  <span class="glyphicon glyphicon-search"></span></button>
-                </div>
-              </div>
-              <div class="col-lg-12">
-                <div class="form-group">
-                  <label class="sr-only" for="codigo_p">Código Producto</label>
-                  <input type="text" class="form-control" id="codigo_p" placeholder="codigo" size="5">
-                  <button type="button" class="btn btn-default btn-sm" data-toggle="modal" data-target="#buscar_p">
-                    <span class="glyphicon glyphicon-search"></span></button>
-                </div>
-                <div class="form-group">
+                <div class = "col-sm-6">
+                  <div class="form-group input-group">
+                    <label class="sr-only" for="n_vendedor_p">Cod.Vendedor</label>
+                     <input type="text" class="form-control" id="n_vendedor_p" placeholder="Cod. Vendedor" size="10"> 
+                  </div>
                   <div class="input-group">
-                    <label class="sr-only" for="producto">Producto</label>
-                    <input class="form-control" type="text" id="producto" placeholder="Producto" size="35" readonly="true">  
+                    <label class="sr-only" for="vendedor_p">Vendedor</label>
+                    <input type="text" class="form-control" id="vendedor_p" placeholder="Vendedor" size="35" readonly="true">
+                    <span class="input-group-btn"><button class="btn btn-primary" data-toggle="modal" data-target="#cliente">Buscar</button>
+                      
                   </div>
                 </div>
-                <div class="form-group">
-                  <label class="sr-only" for="cantidad_p">Cantidad</label>
-                  <input type="text" class="form-control" id="cantidad_p" placeholder="Cantidad" size="4">
+                
+                <div class = "col-sm-6">  
+                  <div class="form-group input-group">
+                    <label class="sr-only" for="mesa_p">Mesa</label>
+                    <input type="text" class="form-control" id="mesa_p" placeholder="Cod. Mesa" size="5">
+                  </div>  
                 </div>
-                <div class="form-group">
-                  <label class="sr-only" for="descuento_p">Descuento</label>
-                  <input type="text" class="form-control" id="descuento_p" placeholder="Descuento" size="10">
-                </div>
-                <div class="form-group input-group">
-                  <span class="input-group-addon">$</span>
-                  <label class="sr-only" for="valort_p">Valor Total</label>
-                  <input type="text" class="form-control" id="valort_p" placeholder="Valor Total" size="10" readonly="true">
-                </div>
-                <button type="submit" class="btn btn-primary">+</button>
-                <button type="reset" class="btn btn-danger">-</button>
               </div>
-            </div>
+              
+              <div class="col-lg-12">
+                <div class = "col-sm-6">
+                  <div class="form-group input-group">
+                    <label class="sr-only" for="n_cliente_p">Cod.Cliente</label>
+                     <input type="text" class="form-control" id="n_cliente_p" placeholder="Cédula" size="10"> 
+                  </div>
+                  <div class="input-group">
+                    <label class="sr-only" for="cliente">cliente</label>
+                    <input type="text" class="form-control" id="cliente" placeholder="Cliente" size="35" readonly="True">
+                    <span class="input-group-btn"><button class="btn btn-primary" data-toggle="modal" data-target="#cliente">Buscar</button>
+                    </span>
+                </div>
+                <div class = "col-sm-6">  
+                  
+                  </div>
+                </div>
+                <div class = "col-sm-6">
+                  <div class="input-group">
+                    <label class="sr-only" for="codigo_p">Código Producto</label>
+                    <input type="text" class="form-control" id="codigo_p" placeholder="codigo" size="10">
+                  </div>
+                  <div class="input-group">
+                      <label class="sr-only" for="producto">Producto</label>
+                      <input class="form-control" type="text" id="producto" placeholder="Producto" size="35" readonly="true">
+                      <span class="input-group-btn"><button class="btn btn-primary" data-toggle="modal" data-target="#cliente">Buscar</button>
+                      </span>  
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-lg-12">
+                <div class = "col-sm-6">
+                  <div class="form-group">
+                    <label class="sr-only" for="cantidad_p">Cantidad</label>
+                    <input type="text" class="form-control" id="cantidad_p" placeholder="Cantidad" size="10">
+                  </div>
+                  <div class="form-group">
+                    <label class="sr-only" for="descuento_p">Descuento</label>
+                    <input type="text" class="form-control" id="descuento_p" placeholder="Descuento" size="10">
+                  </div>
+                  <div class="form-group input-group">
+                    <span class="input-group-addon">$</span>
+                    <label class="sr-only" for="valort_p">Valor Total</label>
+                    <input type="text" class="form-control" id="valort_p" placeholder="Valor Total" size="25" readonly="true">
+                  </div>
+                </div>
+              <div class="col-sm-6">  
+                
+              </div>
+            <div class="col-lg-12">
+              <button type="submit" class="btn btn-primary">Guardar</button>
+              <button type="reset" class="btn btn-danger">Limpiar</button>
+            </div>  
+            </div>    
+          </div>
         </div>
+      </div>
   </div>
 </div>  
 </form>
@@ -236,6 +188,95 @@
         </div>
       </div>
     </div>
+</div>
+
+<!-- Mostrar factura -->
+<div class="modal fade" id="venta" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+        <h4 class="modal-title" id="myModalLabel">Factura de venta</h4>
+      </div>
+      <div class="modal-body">
+        <p>
+          Empresa <br/>
+          Nit <br/>
+          Dirección <br/>
+          Telefono <br/>
+        </p>
+        <p>
+          Cliente:
+          CC/Nit: 
+          Dirección:
+          Teléfono:
+        </p>
+        <table class="table-responsive">
+          <tr><th>Producto</th><th>Cant.</th><th>Valor</th></tr>
+          <tr><td>Gaseosa 350</td><td>1</td><td>1500</td></tr>
+          <tr><td>Pandebono</td><td>1</td><td>1000</td></tr>
+          <tr><td>Empanada</td><td>1</td><td>800</td></tr>
+          <tr><td colspan="2">Total</td><td>3300</td></tr>
+        </table>  
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+        <button type="button" class="btn btn-primary">Imprimir</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Datos buscar producto-->
+
+<div class="modal fade" id="buscar_p" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <form >
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Cerrar</span></button>
+        <h4 class="modal-title" id="myModalLabel">Productos</h4>
+      </div>
+      <div class="modal-body">
+         <div class="input-group">
+          <label class="sr-only" for="producto">Producto</label>
+                <input class="form-control typeahead" type="text" placeholder="Producto" size="40">
+                <span class="input-group-btn"><button class="btn btn-primary">Buscar</button></span>
+         </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+      </div>
+    </div>
+  </form>
+  </div>
+</div>
+
+<!-- Datos buscar cliente-->
+
+<div class="modal fade" id="cliente" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <form >
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Cerrar</span></button>
+        <h4 class="modal-title" id="myModalLabel">Clientes</h4>
+      </div>
+      <div class="modal-body">
+         <div class="input-group">
+          <label class="sr-only" for="cliente">Cliente</label>
+                <input class="form-control" type="text" placeholder="Cliente" size="40">
+                <span class="input-group-btn"><button class="btn btn-primary">Buscar</button></span>
+         </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+      </div>
+    </div>
+  </form>
+  </div>
+</div>
+  </div>
 </div>
 
 {% endblock %}
