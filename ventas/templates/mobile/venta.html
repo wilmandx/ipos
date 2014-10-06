@@ -1,23 +1,20 @@
 {% extends "mobile_layout.html" %}
 {% block content %}
 
-
 <div data-role="page" id="photos">
 	<header data-role="header">
 		<h1>Pedido en linea</h1>
 	</header>
 	<article data-role="content">
 		<ul data-role="listview"  data-filter="true">
-		{% if list_categories %}
-    		{% for categoria in list_categories %}
-			<li>
-				<a href="#dog">
-				<h1>{{categoria.nombre}}</h1>
-				<p>{{categoria.descripcion}}</p>
-				</a>
-			</li>
-		    {% endfor %}
-		{% endif %}
+		{% for key,categoria in list_categories.items %}
+			<ul>
+				<h1>{{categoria.tipoCategoria.nombre}}</h1>
+				{% for producto in categoria.listProductos %}
+					<li>{{producto.nombre}} </li>
+				{% endfor %}
+			</ul>
+		{% endfor %}
 		</ul>
 	</article>
 	<footer data-role="footer" data-position="fixed">
