@@ -1,5 +1,3 @@
-console.log('llega');
-
 var substringMatcher = function(strs) {
   return function findMatches(q, cb) {
     var matches, substrRegex;
@@ -27,11 +25,10 @@ var clientes = ['Hector Naranjo Gallego', '10010133', 'Wilman Tello', '12345544'
 var productos = ['Gaseosa 350', 'Sopa de Maiz', 'Vino' 
 ]; 
 
-var vendedor = ['Juan', 'Pedro', 'Luis', 'Maria' 
-];
+var vendedor = ['Juan mario','Juan Carlos','Juan Pedro', 'Pedro', 'Luis', 'Maria'];
 
  $(document).ready(function(){
-
+ 		console.log('llega');
 		$('#cliente_p .typeahead').typeahead({
 		  hint: true,
 		  highlight: true,
@@ -43,15 +40,25 @@ var vendedor = ['Juan', 'Pedro', 'Luis', 'Maria'
 		  source: substringMatcher(clientes)
 		});
 
-		$('#vendedor_p .typeahead').typeahead({
+		$('#codVendedor.typeahead').typeahead({
 		  hint: true,
 		  highlight: true,
 		  minLength: 2
 		},
 		{
-		  name: 'clientes',
+		  name: 'vendedor',
 		  displayKey: 'value',
-		  source: substringMatcher(clientes)
+		  source: substringMatcher(vendedor)
+		});
+		$('#vendedor_p.typeahead').typeahead({
+		  hint: true,
+		  highlight: true,
+		  minLength: 2
+		},
+		{
+		  name: 'vendedor',
+		  displayKey: 'value',
+		  source: substringMatcher(vendedor)
 		});
     
     $('#producto_p .typeahead').typeahead({
@@ -60,8 +67,8 @@ var vendedor = ['Juan', 'Pedro', 'Luis', 'Maria'
       minLength: 2
     },
     {
-      name: 'clientes',
+      name: 'productos',
       displayKey: 'value',
-      source: substringMatcher(clientes)
+      source: substringMatcher(productos)
     });    
 });
