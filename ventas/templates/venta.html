@@ -9,7 +9,7 @@
 </div>
 
 <!--formulario -->
-<div id="formulario" class="row">
+
     <form class="form-inline" role="form" action="">
         <div id="formulario" class="row">
             <div class="col-lg-12">
@@ -28,20 +28,19 @@
                       <div class = "col-sm-6">
                         <div class="form-group input-group">
                           <label class="sr-only" for="n_vendedor_p">Cod.Vendedor</label>
-                           <input type="text" class="form-control" id="n_vendedor_p" placeholder="Cod. Vendedor" size="10"> 
+                           <input type="text" class="form-control" id="codVendedor" placeholder="Cod. Vendedor" size="10"> 
                         </div>
                         <div class="input-group">
                           <label class="sr-only" for="vendedor_p">Vendedor</label>
                           <input type="text" class="form-control" id="vendedor_p" placeholder="Vendedor" size="35" readonly="true">
-                          <span class="input-group-btn"><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#vendedor">Buscar</button>
-                            
+                          <span class="input-group-btn"><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#vendedor">Buscar</button></span>
                         </div>
                       </div>
                       
                       <div class = "col-sm-6">  
-                        <div class="form-group input-group">
+                        <div class="input-group">
                           <label class="sr-only" for="mesa_p">Mesa</label>
-                          <input type="text" class="form-control" id="mesa_p" placeholder="Cod. Mesa" size="5">
+                          <input type="text" class="form-control" id="mesa_p" placeholder="Cod. Mesa" size="10">
                         </div>  
                       </div>
                     </div>
@@ -49,29 +48,24 @@
                     <div class="col-lg-12">
                       <div class = "col-sm-6">
                         <div class="form-group input-group">
-                          <label class="sr-only" for="n_cliente_p">Cod.Cliente</label>
-                           <input type="text" class="form-control" id="n_cliente_p" placeholder="Cédula" size="10"> 
+                          <label class="sr-only" for="n_cliente_p">Cod.cliente</label>
+                           <input type="text" class="form-control" id="codVendedor" placeholder="Cédula" size="10"> 
                         </div>
                         <div class="input-group">
-                          <label class="sr-only" for="cliente">cliente</label>
-                          <input type="text" class="form-control" id="cliente" placeholder="Cliente" size="35" readonly="True">
-                          <span class="input-group-btn"><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#cliente">Buscar</button>
-                          </span>
-                      </div>
-                      <div class = "col-sm-6">  
-                        
+                          <label class="sr-only" for="cliente_p">Cliente</label>
+                          <input type="text" class="form-control" id="cliente_p" placeholder="Cliente" size="35" readonly="true">
+                          <span class="input-group-btn"><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#cliente">Buscar</button></span>
                         </div>
                       </div>
-                      <div class = "col-sm-6">
-                        <div class="input-group">
-                          <label class="sr-only" for="codigo_p">Código Producto</label>
-                          <input type="text" class="form-control" id="codigo_p" placeholder="codigo" size="10">
+                       <div class = "col-sm-6">
+                        <div class="form-group input-group">
+                          <label class="sr-only" for="n_producto_p">Cod.Producto</label>
+                           <input type="text" class="form-control" id="n_producto_p" placeholder="Código" size="10"> 
                         </div>
                         <div class="input-group">
-                            <label class="sr-only" for="producto">Producto</label>
-                            <input class="form-control" type="text" id="producto" placeholder="Producto" size="35" readonly="true">
-                            <span class="input-group-btn"><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#cliente">Buscar</button>
-                            </span>  
+                          <label class="sr-only" for="producto_p">Producto</label>
+                          <input type="text" class="form-control" id="producto_p" placeholder="Producto" size="35" readonly="true">
+                          <span class="input-group-btn"><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#producto">Buscar</button></span>
                         </div>
                       </div>
                     </div>
@@ -102,11 +96,11 @@
               </div>
             </div>
         </div>
-      </div>
+
       <div id="botones" class="row">    
-        <div class="col-lg-12">
-          <button type="submit" class="btn btn-primary">Guardar</button>
-          <button type="reset" class="btn btn-danger">Limpiar</button>
+        <div class="col-lg-12 page-header" align="center">
+          <button type="submit" class="btn btn-primary btn-lg">Guardar</button>
+          <button type="reset" class="btn btn-danger btn-lg">Limpiar</button>
         </div>  
       </form>
 
@@ -210,7 +204,7 @@
 
 <!-- Datos buscar producto-->
 
-    <div class="modal fade" id="buscar_p" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal fade" id="producto" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
       <div class="modal-dialog">
         <form >
         <div class="modal-content">
