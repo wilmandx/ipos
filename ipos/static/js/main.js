@@ -29,7 +29,7 @@ var vendedor = ['Juan mario','Juan Carlos','Juan Pedro', 'Pedro', 'Luis', 'Maria
 
  $(document).ready(function(){
  		console.log('llega');
-		$('#cliente_p .typeahead').typeahead({
+		$('#cliente_p.typeahead').typeahead({
 		  hint: true,
 		  highlight: true,
 		  minLength: 2
@@ -61,7 +61,7 @@ var vendedor = ['Juan mario','Juan Carlos','Juan Pedro', 'Pedro', 'Luis', 'Maria
 		  source: substringMatcher(vendedor)
 		});
     
-    $('#producto_p .typeahead').typeahead({
+    $('#producto_p.typeahead').typeahead({
       hint: true,
       highlight: true,
       minLength: 2
