@@ -1,115 +1,114 @@
 {% extends "base_layout.html" %}
 {% block content %}
-<div id="b_herramientas" class="row">
-  <div col-md-4iv class="col-lg-12 page-header">
-    <button type="button" class="btn btn-default btn-lg">
-    <span class="glyphicon glyphicon-plus"></span> Nuevo</button>
-    <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#venta">
-    <span class="glyphicon glyphicon-print"></span> Imprimir</button>
-</div>
-
-<!--formulario -->
-
-    <form class="form-inline" role="form" action="">
-        <div id="formulario" class="row">
-            <div class="col-lg-12">
-                <div class="panel panel-primary">
-                  <div class="panel-heading">
-                    <h3 class="panel-title"><font size="5">Modulo Venta.</font></h3>
-                  </div>
-                <div class="panel-body">
-                  <div class = "col-lg-12">
-                    <div class="col-sm-6">
-                      <font size="5">Número Pedido: 1</font>
-                    </div>  
-                  </div>
-
-                    <div class="col-lg-12">
-                      <div class = "col-sm-6">
-                        <div class="form-group input-group">
-                          <label class="sr-only" for="n_vendedor_p">Cod.Vendedor</label>
-                           <input type="text" class="form-control" id="codVendedor" placeholder="Cod. Vendedor" size="10"> 
-                        </div>
-                        <div class="input-group">
-                          <label class="sr-only" for="vendedor_p">Vendedor</label>
-                          <input type="text" class="form-control" id="vendedor_p" placeholder="Vendedor" size="35" readonly="true">
-                          <span class="input-group-btn"><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#vendedor">Buscar</button></span>
-                        </div>
-                      </div>
-                      
-                      <div class = "col-sm-6">  
-                        <div class="input-group">
-                          <label class="sr-only" for="mesa_p">Mesa</label>
-                          <input type="text" class="form-control" id="mesa_p" placeholder="Cod. Mesa" size="10">
-                        </div>  
-                      </div>
-                    </div>
-                    
-                    <div class="col-lg-12">
-                      <div class = "col-sm-6">
-                        <div class="form-group input-group">
-                          <label class="sr-only" for="n_cliente_p">Cod.cliente</label>
-                           <input type="text" class="form-control" id="codVendedor" placeholder="Cédula" size="10"> 
-                        </div>
-                        <div class="input-group">
-                          <label class="sr-only" for="cliente_p">Cliente</label>
-                          <input type="text" class="form-control" id="cliente_p" placeholder="Cliente" size="35" readonly="true">
-                          <span class="input-group-btn"><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#cliente">Buscar</button></span>
-                        </div>
-                      </div>
-                       <div class = "col-sm-6">
-                        <div class="form-group input-group">
-                          <label class="sr-only" for="n_producto_p">Cod.Producto</label>
-                           <input type="text" class="form-control" id="n_producto_p" placeholder="Código" size="10"> 
-                        </div>
-                        <div class="input-group">
-                          <label class="sr-only" for="producto_p">Producto</label>
-                          <input type="text" class="form-control" id="producto_p" placeholder="Producto" size="35" readonly="true">
-                          <span class="input-group-btn"><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#producto">Buscar</button></span>
-                        </div>
-                      </div>
-                    </div>
-
-                    <div class="col-lg-12">
-                      <div class = "col-sm-6">
-                        <div class="form-group">
-                          <label class="sr-only" for="cantidad_p">Cantidad</label>
-                          <input type="text" class="form-control" id="cantidad_p" placeholder="Cantidad" size="10">
-                        </div>
-                        <div class="form-group">
-                          <label class="sr-only" for="descuento_p">Descuento</label>
-                          <input type="text" class="form-control" id="descuento_p" placeholder="Descuento" size="10">
-                        </div>
-                        <div class="form-group input-group">
-                          <span class="input-group-addon">$</span>
-                          <label class="sr-only" for="valort_p">Valor Total</label>
-                          <input type="text" class="form-control" id="valort_p" placeholder="Valor Total" size="25" readonly="true">
-                        </div>
-                      </div>
-                    <div class="col-sm-6">  
-                      
-                    </div>
-                      
-                      </div>    
-                  </div>    
-                </div>
-              </div>
+<div col-md-4iv class="col-sm-12 page-header">
+<form class="form-inline" role="form" action="">  
+  <div class="panel panel-primary">
+    <div class="panel-heading">
+      <h3 class="panel-title"><font size="5">Modulo de Ventas.</font></h3>
+    </div>  
+    <div class="panel-body"> 
+      <div id="formulario" class="row">
+          <div class = "col-lg-12">
+            <div class="form group input-group-lg">
+              <label class="sr-only" for="factura">Factura</label>
+              <input type="text" class="form-control" id="Factura" placeholder="Factura" size="30"> 
+                <button type="button" class="btn btn-info btn-lg">
+                  <span class="glyphicon glyphicon-search"></span>Buscar</button>
+                <button type="button" class="btn btn-default btn-lg">
+                  <span class="glyphicon glyphicon-plus"></span> Nuevo</button>
+                <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#venta">
+                  <span class="glyphicon glyphicon-print"></span> Imprimir</button>
+                <button type="button" class="btn btn-danger btn-lg">
+                  <span class="glyphicon glyphicon-remove"></span> Anular</button>
             </div>
+          </div>
+      </div>      
+    </div>
+    <div class="panel-heading">
+      <h3 class="panel-title"><font size="4">Datos Maestro Factura.</font></h3>
+    </div>
+    <div class="panel-body">
+      <div class="col-sm-4">
+        <div class="form-group input-group-lg">
+          <label class="sr-only" for="fecha">Fecha:</label>
+           <input type="text" class="form-control" id="fecha" placeholder="Fecha" size="20">
         </div>
-
-      <div id="botones" class="row">    
-        <div class="col-lg-12 page-header" align="center">
-          <button type="submit" class="btn btn-primary btn-lg">Guardar</button>
-          <button type="reset" class="btn btn-danger btn-lg">Limpiar</button>
-        </div>  
-      </form>
-
-  <div id="detalle" class="row">
+        <div class="form-group input-group-lg">
+          <label class="sr-only" for="Hora">Hora:</label>
+           <input type="text" class="form-control" id="hora" placeholder="Hora" size="15">
+        </div>
+      </div>
+      <div class="col-sm-4">
+        <div class="form group input-group-lg">
+          <label class="sr-only" for="cliente">Cliente</label>
+            <input type="text" class="form-control typeahead tt-query" id="cliente_p" placeholder="Cliente" size="50">
+            <button type="button" class="btn btn-default btn-sm">
+        <span class="glyphicon glyphicon-plus"></span>Nuevo</button>
+        </div>
+        <div class="input-group-lg">
+          <label class="sr-only" for="vendedor">Vendedor</label>
+          <input id="vendedor_p" type="text" class="form-control typeahead tt-query" placeholder="Vendedor" size="40">
+        </div>
+      </div>
+      <div class="col-sm-4">
+        <div class="input-group-lg">
+          <label class="sr-only" for="mesa_p">Mesa</label>
+          <input type="text" class="form-control" id="mesa_p" placeholder="Cod. Mesa" size="20">
+        </div>
+        <div class="input-group-lg">
+          <label class="sr-only" for="propina">Propina</label>
+          <input type="text" class="form-control" id="propina" placeholder="Propina" size="20">
+          <span class="input-group-btn">
+            <button type="button" class="btn btn-primary">%</button>
+            <button type="button" class="btn btn-info">$</button>
+          </span>
+        </div>
+      </div>     
+    </div>
+    <div class="panel-heading">
+      <h3 class="panel-title"><font size="4">Datos Detalle Factura.</font></h3>
+    </div>
+    <div class="panel-body">
       <div class="col-lg-12">
-        <div class="panel panel-success page-header">
-          <div class="panel-heading">Detalle Pedido: <strong>Pedido No. 1</strong> - Mesa: No. 1</div>
-          
-          <div class="panel-body table-responsive">
+        <div class="form-group input-group">
+          <label class="sr-only" for="n_producto_p">Cod.Producto</label>
+          <input type="text" class="form-control" id="n_producto_p" placeholder="Código" size="10"> 
+        </div>
+        <div class="form-group">
+          <label class="sr-only" for="producto">Producto</label>
+            <input type="text" class="form-control typeahead" id="producto_p" placeholder="Producto" size="40">
+        </div>
+        <div class="form-group">
+          <label class="sr-only" for="cantidad_p">Cantidad</label>
+          <input type="text" class="form-control" id="cantidad_p" placeholder="Cantidad" value="1" size="10">
+        </div>
+        <div class="form-group">
+          <label class="sr-only" for="descuento_p">Descuento</label>
+          <input type="text" class="form-control" id="descuento_p" placeholder="Descuento" size="10">
+        </div>
+        <div class="form-group input-group">
+          <span class="input-group-addon">%</span>
+          <label class="sr-only" for="valori_p">Valor IVA</label>
+          <input type="text" class="form-control" id="valori_p" placeholder="Valor IVA" size="25" readonly="true">
+        </div>
+        <div class="form-group input-group">
+          <span class="input-group-addon">$</span>
+          <label class="sr-only" for="valort_p">Valor Total</label>
+          <input type="text" class="form-control" id="valort_p" placeholder="Valor Total" size="25" readonly="true">
+        </div>
+        <button type="submit" class="btn btn-primary btn-lg">+</button>
+        <button type="reset" class="btn btn-danger btn-lg">C</button>
+      </div>  
+    </div>
+  </div>
+</form>
+</div>          
+
+<div col-md-4iv class="col-sm-12 page-header">  
+    <div class="panel panel-success">
+      <div class="panel-heading">Detalle Pedido: <strong>Pedido No. 1</strong> - Mesa: No. 1</div>
+        <div class="panel-body table-responsive">
+          <div class="col-lg-12">
             <table class="table table-striped table-hover" width="100%">
                 <tr>
                     <th width="30%">Descripción</th>
@@ -163,6 +162,8 @@
         </div>
       </div>
   </div>
+</div>
+<div class="panel-footer"><a href="http://www.softwarepractico.com">Software Practico</a> Todos los derechos reservados - &copy Copyright 2014 - ipos++</div>
 </div>
 
 <!-- Mostrar factura -->
@@ -239,9 +240,7 @@
           </div>
           <div class="modal-body">
              <div class="input-group">
-              <label class="sr-only" for="cliente">Cliente</label>
-                    <input id="cliente_p" class="form-control typeahead" type="text" placeholder="Cliente" size="40">
-                    <span class="input-group-btn"><button class="btn btn-primary">Seleccionar</button></span>
+              
              </div>
           </div>
           <div class="modal-footer">
@@ -263,7 +262,7 @@
           </div>
           <div class="modal-body">
              <div class="input-group">
-              <label class="sr-only" for="cliente">Vendedor</label>
+              <label class="sr-only" for="vendedor">Vendedor</label>
                     <input id="vendedor_p" class="form-control typeahead" type="text" placeholder="Vendedor" size="40">
                     <span class="input-group-btn"><button class="btn btn-primary">Seleccionar</button></span>
              </div>
