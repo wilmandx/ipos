@@ -28,7 +28,21 @@ var productos = ['Gaseosa 350', 'Sopa de Maiz', 'Vino'
 var vendedor = ['Juan mario','Juan Carlos','Juan Pedro', 'Pedro', 'Luis', 'Maria'];
 
  $(document).ready(function(){
- 		console.log('llega');
+
+ 		$('#btn-menu-collapser').click(
+ 			function(){
+ 				$('#navigation').toggle(
+ 					function(){
+ 						if($('#navigation').is(':hidden')){
+					        $('#page-wrapper').css('margin','0 0');
+					    }else{
+					        $('#page-wrapper').css('margin','0 0 0 250px');
+					    } 						
+ 					}
+ 				);
+ 				
+ 			}
+ 		);
 		$('#cliente_p.typeahead').typeahead({
 		  hint: true,
 		  highlight: true,
