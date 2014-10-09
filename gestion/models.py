@@ -4,7 +4,7 @@ from django.utils import timezone
 # Create your models here.
 class ValorTipo(models.Model):
 	nombre = models.CharField(max_length=500)
-	descripcion = models.CharField(max_length=3000)
+	descripcion = models.CharField(max_length=1000,blank=True, null=True)
 	padre = models.ForeignKey('self',blank=True, null=True,)
 	activo = models.BooleanField(default=True)
 	class Meta:
@@ -14,14 +14,17 @@ class ValorTipo(models.Model):
 		return self.nombre
 
 class Producto(models.Model):
+	#Si no se coloca un codigo por defecto va a ser la llave primaria
+	codigo = models.CharField(max_length=20,blank=True, null=True)
 	nombre = models.CharField(max_length=200)
-	tipoMarca = models.ForeignKey(ValorTipo,related_name='+')
-	precio = models.IntegerField(default=0)
+	tipoMarca = models.ForeignKey(ValorTipo,related_name='+',blank=True, null=True)
+	valorCompra = models.IntegerField(default=0)
 	valorVenta = models.IntegerField(default=0)
-	iva = models.IntegerField(default=0)
+	ivaPorcentaje = models.IntegerField(default=0)
 	#foto = models.FileField()
-	descripcion = models.CharField(max_length=1000)
+	descripcion = models.CharField(max_length=1000,blank=True, null=True)
 	tipoCategoria = models.ForeignKey(ValorTipo,related_name='+')
+	esServicio = models.BooleanField(default=False)
 	def __str__(self):
 		return self.nombre
 

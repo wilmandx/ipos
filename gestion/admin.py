@@ -33,9 +33,10 @@ class ProductoAdminForm(forms.ModelForm):
 		self.fields['tipoMarca'].queryset = ValorTipo.objects.filter(padre=4)
 
 class ProductoAdmin(admin.ModelAdmin):
-	form = ProductoAdminForm
-	list_display = ('nombre','tipoCategoria','precio','iva')
-	list_per_page=10
+    form = ProductoAdminForm
+    search_fields=('nombre','codigo')
+    list_display = ('codigo','nombre','tipoCategoria','valorCompra','valorVenta','ivaPorcentaje')
+    list_per_page=10
 
 admin.site.register(ValorTipo,ValorTipoAdmin)
 admin.site.register(DivPolitica,DivPoliticaAdmin)
@@ -50,10 +51,10 @@ class TipoAdmin(admin.ModelAdmin):
 	search_fields=('nombre',)
 	inlines = [ProductoInline]'''
 
-class ProductoAdmin(admin.ModelAdmin):
+'''class ProductoAdmin(admin.ModelAdmin):
 	list_display = ('nombre','Marca','precio','valorVenta','iva','descripcion','foto')
 	search_fields=('nombre',)
-	#file = forms.FileField()
+	#file = forms.FileField()'''
 
 
 

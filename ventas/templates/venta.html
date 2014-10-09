@@ -1,128 +1,165 @@
 {% extends "base_layout.html" %}
 {% block content %}
 <div class="col-lg-12 page-header">
-  <form class="form-inline" role="form" action="">  
+  <nav class="navbar navbar-default" role="navigation">
+    <div class="container-fluid">
+      <!-- Brand and toggle get grouped for better mobile display -->
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="#">Opciones</a>
+      </div>
+
+      <!-- Collect the nav links, forms, and other content for toggling -->
+      <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+        <ul class="nav navbar-nav">
+          <li class="active"><a href="#">Venta</a></li>
+          <li><a href="/ventas/listar/">Pedido</a></li>
+          <li><a href="#">Nuevo</a></li>
+        </ul>
+        <form id="frm-buscar" class="navbar-form navbar-left" role="search">
+          <div class="form-group">
+            <input type="text" class="form-control" placeholder="Buscar factura (Codigo)" size="30">
+          </div> 
+          <button type="button" class="btn btn-default btn-md">
+          <span class="glyphicon glyphicon-search"></span></button>  
+        </form>
+        <ul class="nav navbar-nav">
+          <li><a href="#">Anular</a></li>
+          <li><a href="#">Imprimir</a></li>
+        </ul>
+        <ul class="nav navbar-nav navbar-right">
+          <li><a href="/admin/logout">Salir</a></li>
+        </ul>
+      </div><!-- /.navbar-collapse -->
+    </div><!-- /.container-fluid -->
+  </nav>
+
+  <form  id="frm-maestro" class="form-horizontal" role="form" action="">  
     <div class="panel panel-primary">
       <div class="panel-heading">
-        <h3 class="panel-title"><font size="5">Modulo de Ventas.</font></h3>
+        <h3 class="panel-title"><font size="3">Datos Maestro.</font></h3>
       </div>  
       <div class="panel-body"> 
         <div class="form-group">
-            <label for="factura" class="col-lg-1 control-label">Factura:</label>
-            <div class="col-lg-11">
-              <span class="input-group-lg">
-                <input type="text" class="form-control" id="Factura" placeholder="Factura" size="20"> 
-              </span>
-              <button type="button" class="btn btn-info btn-lg">
-                <span class="glyphicon glyphicon-search"></span>Buscar</button>
-              <button type="button" class="btn btn-default btn-lg">
-                <span class="glyphicon glyphicon-plus"></span> Nuevo</button>
-              <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#venta">
-                <span class="glyphicon glyphicon-print"></span> Imprimir</button>
-              <button type="button" class="btn btn-danger btn-lg">
-                <span class="glyphicon glyphicon-remove"></span> Anular</button>
+          <label for="factura" class="col-md-1 control-label">Factura:</label>
+          <div class="col-lg-5">
+            <span class="input-group-lg">
+              <input type="text" class="form-control" id="factura" name="factura" placeholder="Factura" size="20" readonly="true"> 
+            </span>
           </div>
-        </div>      
-      </div>
-      <div class="panel-heading">
-        <h3 class="panel-title"><font size="4">Datos Maestro.</font></h3>
-      </div>
-      
-      <div class="panel-body">
-        
-        <div class="form-group">
           <label for="fecha" class="col-md-1 control-label">Fecha:</label>
+          <div class="col-lg-2">
+            <div class="input-group-lg">
+              <input type="text" class="form-control" id="fecha" name="fecha" placeholder="Fecha" readonly="true">
+             </div>
+          </div>
+          <label for="fecha" class="col-md-1 control-label">Hora:</label>
+          <div class="col-lg-2">
+            <div class="input-group-lg">
+             <input type="text" class="form-control" id="hora" name="hora" placeholder="Hora" readonly="true">
+           </div>
+          </div>
+          <label for="cliente" class="col-md-1 control-label">Cliente:</label>    
+          <div class="col-lg-5">
+            <div class="input-group input-group-lg">
+              <input type="text" class="form-control" id="cliente_p" name="cliente_p" placeholder="Cliente">
+              <span class="input-group-btn">
+                <button type="button" class="btn btn-default btn-lg">+</button>
+              </span>
+            </div>
+          </div>
+          <label for="vendedor" class="col-md-1 control-label">Vendedor:</label>    
           <div class="col-lg-5">
             <div class="input-group-lg">
-              <input type="text" class="form-control" id="fecha" placeholder="Fecha" size="20">
-             </div>
+              <input type="text" class="form-control" id="vendedor_p" name="vendedor_p" placeholder="Vendedor">
+            </div>
           </div>
-          <label for="fecha" class="col-lg-1">Hora:</label>
-            <div class="col-lg-5">
-              <div class="input-group-lg">
-               <input type="text" class="form-control" id="hora" placeholder="Hora" size="20">
-             </div>
+
+          <label for="mesa" class="col-md-1 control-label">Mesa:</label>    
+          <div class="col-lg-5">
+            <div class="input-group-lg">
+              <input type="text" class="form-control" id="mesa_p" name="mesa_p" placeholder="Mesa">
             </div>
-            <label for="cliente" class="col-lg-1">Cliente:</label>    
-            <div class="col-lg-5">
-              <div class="input-group input-group-lg">
-                <input type="text" class="form-control" id="cliente_p" placeholder="Cliente">
-                  <!-- typeahead tt-query -->
-              <span class="input-group-addon">+</span>
-              </div>
-            </div>
-            <label for="vendedor" class="col-lg-1">Vendedor:</label>
-            <div class="col-lg-5">
-              <div class="input-group input-group-lg">
-                <label class="sr-only" for="vendedor">Vendedor</label>
-                <input id="vendedor_p" type="text" class="form-control" placeholder="Vendedor">
-                <!-- typeahead tt-query -->
-              </div>
-            </div>
-            <label for="mesa_p" class="col-lg-1">Mesa:</label>
-            <div class="col-lg-5">
-              <div class="input-group input-group-lg">
-                <input type="text" class="form-control" id="mesa_p" placeholder="Cod. Mesa" size='20'>
-              </div>
-            </div>
-            <label for="propina" class="col-lg-1">Propina:</label>
-            <div class="col-lg-5">
-              <div class="input-group input-group-lg">
-                <span class="input-group-btn input-group-lg">
-                <input type="text" class="form-control" id="propina" placeholder="Propina" size="20">
-                <span class="input-group-addon">%</span>
-                <span class="input-group-addon">$</span>
+          </div>
+          <label for="propina" class="col-md-1 control-label">Propina:</label>
+          <div class="col-lg-5">
+            <div class="input-group input-group-lg">
+              <input type="text" class="form-control" id="propina" name="propina" placeholder="Propina">
+              <span class="input-group-btn">
+                <button type="button" class="btn btn-default btn-lg">%</button>
+                <button type="button" class="btn btn-default btn-lg">$</button>
               </span>
+            </div>
+          </div>
+          <div class="col-lg-12" align="center">
+            <div class="btn btn-primary btn-lg col-md-12">
+              <button class="btn btn-default btn-lg">Registrar Maestro</button>
             </div>
           </div>
         </div>        
       </div>
-
+    </div>
+    </form>
+    
+    <form id="frm-detalle" class="form-inline" role="form" action="">
+      <div class="panel panel-primary">
       <div class="panel-heading">
         <h3 class="panel-title"><font size="4">Datos Detalle.</font></h3>
       </div>
-      <div class="panel-body">
+      <div class="panel-body form-inline">
         <div class="col-lg-12">
-          <div class="form-group input-group">
-            <label class="sr-only" for="n_producto_p">Cod.Producto</label>
-            <input type="text" class="form-control" id="n_producto_p" placeholder="Código" size="20"> 
-          </div>
+          <div class="form-group"> 
+            <div class="input-group">
+              <label class="sr-only" for="n_producto_p">Cod.Producto</label>
+              <input type="text" class="form-control" id="n_producto_p" name="n_producto_p" placeholder="Código" size="10"> 
+            </div>
 
-          <div class="form-group">
-          <label for="producto">Producto</label>
-              <input type="text" class="form-control typeahead" id="producto_p" placeholder="Producto" size="40">
-          </div>
-          <div class="form-group">
-            <label class="sr-only" for="unitario_p">Valor Unitario</label>
-            <input type="text" class="form-control" id="unitario_p" placeholder="Valor Unitario" value="1" size="10">
-          </div>
-          <div class="form-group">
-            <label class="sr-only" for="cantidad_p">Cantidad</label>
-            <input type="text" class="form-control" id="cantidad_p" placeholder="Cantidad" value="1" size="5">
-          </div>
-          <div class="form-group">
-            <label class="sr-only" for="descuento_p">Descuento</label>
-            <input type="text" class="form-control" id="descuento_p" placeholder="Descuento" size="10">
-          </div>
-          <div class="form-group input-group">
-            <label class="sr-only" for="valori_p">Valor IVA</label>
-            <input type="text" class="form-control" id="valori_p" placeholder="Valor IVA" size="10" readonly="true">
-            <span class="input-group-addon">%</span>
-          </div>
-          <div class="form-group input-group">
-            <span class="input-group-addon">$</span>
-            <label class="sr-only" for="valort_p">Valor Total</label>
-            <input type="text" class="form-control" id="valort_p" placeholder="Valor Total" size="25" readonly="true">
-          </div>
-          <button type="submit" class="btn btn-primary btn-lg">+</button>
-          <button type="reset" class="btn btn-danger btn-lg">C</button>
-        </div>  
+            <div class="input-group">
+            <label class="sr-only" for="producto">Producto</label>
+                <input type="text" class="form-control typeahead tt-query" id="producto_p" name="producto_p" placeholder="Producto" size="30">
+            </div>
+            <div class="input-group">
+              <label class="sr-only" for="unitario_p">Valor Unitario</label>
+              <input type="text" class="form-control" id="unitario_p" name="unitario_p" placeholder="Valor Unitario" size="6">
+            </div>
+            <div class="input-group">
+              <label class="sr-only" for="cantidad_p">Cantidad</label>
+              <input type="text" class="form-control" id="cantidad_p" name="cantidad_p" placeholder="Cantidad" value="1" size="3">
+            </div>
+            <div class="input-group">
+              <label class="sr-only" for="descuento_p">Descuento</label>
+              <input type="text" class="form-control" id="descuento_p" name="descuento_p" placeholder="Descuento" size="6">
+              <span class="input-group-btn">
+                <button type="button" class="btn btn-default btn">%</button>
+                <button type="button" class="btn btn-default btn">$</button>
+              </span>
+            </div>
+            <div class="input-group">
+              <label class="sr-only" for="valori_p">Valor IVA</label>
+              <span class="input-group-addon">$</span>
+              <input type="text" class="form-control" id="valori_p" name="valori_p" placeholder="Valor IVA" size="6" readonly="true">
+            </div>
+            <div class="input-group">
+              <span class="input-group-addon">$</span>
+              <label class="sr-only" for="valort_p">Valor Total</label>
+              <input type="text" class="form-control" id="valort_p" name="valort_p" placeholder="Valor Total" size="6" readonly="true">
+            </div>
+            <button type="submit" class="btn btn-primary btn-lg">+</button>
+            <button type="reset" class="btn btn-danger btn-lg">C</button>
+          </div> 
+        </div>   
       </div>
-    </div>
-  </form>      
-  <div class="col-lg-12">
-    <div class="panel panel-success page-header">
-      <div class="panel-heading">Listado de pedidos. <strong>Fecha: </strong> Lunes, 6 de octubre de 2014</div>
+     </div> 
+  </form>
+
+  <div class="col-12-lg">
+    <div class="panel panel-primary page-header">
+      <div class="panel-heading">Listado de productos. <strong>Fecha: </strong> Lunes, 6 de octubre de 2014</div>
         <div class="panel-body table-responsive">
           <table class="table table-striped table-hover" width="100%">
             <tr>
@@ -197,7 +234,7 @@
     </div>
   </div>
   
-  <div class="panel-footer"><a href="http://www.softwarepractico.com">Software Practico</a> Todos los derechos reservados - &copy Copyright 2014 - ipos++</div>
+  <div class="panel-footer"><a href="http://www.softwarenaranja.com">Informes y ventas</a> Todos los derechos reservados - &copy Copyright 2014 - ipos++</div>
 
 
 <!-- Mostrar factura -->
