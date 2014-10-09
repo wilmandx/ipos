@@ -22,28 +22,31 @@ var substringMatcher = function(strs) {
 var clientes = ['Hector Naranjo Gallego', '10010133', 'Wilman Tello', '12345544'
 ];
 
-var productos = ['Gaseosa 350', 'Sopa de Maiz', 'Vino' 
-]; 
+$(document).ready(function(){
+	iniciarInterfazPrincipal();
+	iniciarVentas();
+});
 
-var vendedor = ['Juan mario','Juan Carlos','Juan Pedro', 'Pedro', 'Luis', 'Maria'];
 
- $(document).ready(function(){
+function iniciarInterfazPrincipal(){
+	$('#btn-menu-collapser').click(
+		function(){
+			$('#navigation').toggle(
+				function(){
+					if($('#navigation').is(':hidden')){
+			        $('#page-wrapper').css('margin','0 0');
+			    }else{
+			        $('#page-wrapper').css('margin','0 0 0 250px');
+			    } 						
+				}
+			);
+			
+		}
+	);
+}
 
- 		$('#btn-menu-collapser').click(
- 			function(){
- 				$('#navigation').toggle(
- 					function(){
- 						if($('#navigation').is(':hidden')){
-					        $('#page-wrapper').css('margin','0 0');
-					    }else{
-					        $('#page-wrapper').css('margin','0 0 0 250px');
-					    } 						
- 					}
- 				);
- 				
- 			}
- 		);
-		$('#cliente_p.typeahead').typeahead({
+function iniciarVentas(){
+	/*$('#cliente_p.typeahead').typeahead({
 		  hint: true,
 		  highlight: true,
 		  minLength: 2
@@ -52,37 +55,50 @@ var vendedor = ['Juan mario','Juan Carlos','Juan Pedro', 'Pedro', 'Luis', 'Maria
 		  name: 'clientes',
 		  displayKey: 'value',
 		  source: substringMatcher(clientes)
-		});
+		});*/
+	/*$('#cliente_p.typeahead').typeahead({
+		  name: 'Search',
+		  remote: '/search?query=%QUERY'
+		});*/
 
-		$('#codVendedor.typeahead').typeahead({
-		  hint: true,
-		  highlight: true,
-		  minLength: 2
-		},
-		{
-		  name: 'vendedor',
-		  displayKey: 'value',
-		  source: substringMatcher(vendedor)
-		});
-		$('#vendedor_p.typeahead').typeahead({
-		  hint: true,
-		  highlight: true,
-		  minLength: 2
-		},
-		{
-		  name: 'vendedor',
-		  displayKey: 'value',
-		  source: substringMatcher(vendedor)
-		});
-    
-    $('#producto_p.typeahead').typeahead({
-      hint: true,
-      highlight: true,
-      minLength: 2
-    },
-    {
-      name: 'productos',
-      displayKey: 'value',
-      source: substringMatcher(productos)
-    });    
-});
+	var clientesRemote = new Bloodhound({
+	  datumTokenizer: Bloodhound.tokenizers.obj.whitespace('nombre_completo'),
+	  queryTokenizer: Bloodhound.tokenizers.whitespace,
+	  remote: '/ventas/clientes/?q=%QUERY'
+	});
+	 
+	clientesRemote.initialize();
+	 
+	$('#cliente_p.typeahead').typeahead(null, {
+	  name: 'clientes',
+	  displayKey: 'nombre_completo',
+	  source: clientesRemote.ttAdapter()
+	});
+
+	$('#vendedor_p.typeahead').typeahead(null, {
+	  name: 'vendedores',
+	  displayKey: 'nombre_completo',
+	  source: clientesRemote.ttAdapter()
+	});
+
+	$('form #btn-add-product').click(
+		function(){
+			savePedido();
+		}
+	);
+		
+}
+function savePedido(){
+	ajax=$.post( "/ventas/save/", $("form[role=form]").serialize());
+	ajax.done(function( data ) {
+    	//var factura = JSON.parse(data);
+    	$("#idFactura").val(data.nroFactura);
+    	$("#Factura").val(data.nroFactura);
+    	//Agregar el item a la tabla...
+    	$('.table table-striped table-hover').append('<tr><td>XXXXXXXXXXXX</td></tr>');
+    	//Actualizar el gran total
+  	});
+  	ajax.fail(function( data ) {
+  		alert('Error');
+  	});
+}
