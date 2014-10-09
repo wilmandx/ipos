@@ -4,3 +4,5 @@
 /ipos/__pycache__
 /ventas/__pycache__
 /ventas/migrations/__pycache__
+*.pyc
+*.pyc
