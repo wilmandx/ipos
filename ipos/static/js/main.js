@@ -57,13 +57,26 @@ function iniciarVentas(){
 	  name: 'clientes',
 	  displayKey: 'nombre_completo',
 	  source: clientesRemote.ttAdapter()
-	});
+	}).bind('typeahead:selected', function(obj, datum) {
+        $('#idcliente_p').val(datum.id);
+    	//$('#vendedor_p').focus();
+    });
+	/****************************************************/
 
+	/**Typeahead para los vendedores***************************/
+	var vendedoresRemote = new Bloodhound({
+	  datumTokenizer: Bloodhound.tokenizers.obj.whitespace('nombre_completo'),
+	  queryTokenizer: Bloodhound.tokenizers.whitespace,
+	  remote: '/ventas/vendedores/?q=%QUERY'
+	});
+	vendedoresRemote.initialize();
 	$('#vendedor_p.typeahead').typeahead(null, {
 	  name: 'vendedores',
 	  displayKey: 'nombre_completo',
-	  source: clientesRemote.ttAdapter()
-	});
+	  source: vendedoresRemote.ttAdapter()
+	}).bind('typeahead:selected', function(obj, datum) {
+        $('#idvendedor_p').val(datum.id);
+    });
 	/****************************************************/
 
 	/****Typeahead de los productos**********************/
@@ -89,6 +102,7 @@ function iniciarVentas(){
     	$('#valort_p').val(datum.valorVenta);
     	$('#valori_p').val(datum.iva);
     	$('#idproducto_p').val(datum.id);
+    	$('#cantidad_p').focus();
     });
 	/*******************************************************/
 	

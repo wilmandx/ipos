@@ -21,3 +21,7 @@ def in_group(user, groups):
 		return bool(user.groups.filter(name__in=group_list).values('name'))
 	else:
 		return False
+
+@register.filter
+def access(value, arg):
+    return value[arg]

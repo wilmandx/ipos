@@ -33,7 +33,30 @@ def venta_desktop(request,nroFactura=None):
 	listDetalles=None
 	if(ventaMaestro!=None):
 		listDetalles=ventaMaestro.ventadetalle_set.all()
-	context = {'message':'ok','ventaMaestro':ventaMaestro,'listDetalles':listDetalles}
+	else:
+		#crear un ventaMaestro con valores por defecto...cliente y vendedor
+		ventaMaestro=VentaMaestro()
+		ventaMaestro.cliente=User.objects.get(id=2)
+		ventaMaestro.vendedor=request.user
+	#Calcular el total para cada detalle y total general
+	dictTotales={}
+	granTotal=0
+	ivaTotal=0
+	ivaTmp=100
+	if listDetalles!=None:
+		for detalle in listDetalles:
+			dictTotales[detalle.id]=(detalle.valorUni*detalle.cantidad)-detalle.descuento
+			granTotal=granTotal+dictTotales[detalle.id]
+			if detalle.iva==0 :
+				ivaTmp=100
+			else:
+				ivaTmp=detalle.iva
+			ivaTotal=ivaTotal+(dictTotales[detalle.id]*ivaTmp)/100
+	dictTotales['granTotal']=granTotal
+	dictTotales['ivaTotal']=ivaTotal
+	dictTotales['subTotal']=granTotal-ivaTotal
+
+	context = {'message':'ok','ventaMaestro':ventaMaestro,'listDetalles':listDetalles,'dictTotales':dictTotales}
 	return render(request, 'venta.html',context)
 
 @login_required
@@ -65,10 +88,23 @@ def listar(request):
 def clientes(request):
 	query = request.GET.get('q','')
 	if(len(query) > 0):
-		results = User.objects.filter(first_name__istartswith=query)
+		results = User.objects.filter(last_name__istartswith=query)
 		result_list = []
 		for item in results:
-			result_list.append({'nombre_completo':item.first_name+' '+item.last_name})
+			result_list.append({'id':item.id,'nombre_completo':item.last_name+' '+item.first_name})
+	else:
+		result_list = []
+	response_text = json.dumps(result_list, separators=(',',':'))
+	return HttpResponse(response_text, content_type="application/json")
+
+@login_required
+def vendedores(request):
+	query = request.GET.get('q','')
+	if(len(query) > 0):
+		results = User.objects.filter(last_name__istartswith=query)
+		result_list = []
+		for item in results:
+			result_list.append({'id':item.id,'nombre_completo':item.last_name+' '+item.first_name})
 	else:
 		result_list = []
 	response_text = json.dumps(result_list, separators=(',',':'))
@@ -95,8 +131,9 @@ def savePedido(request):
 		factura=VentaMaestro.objects.get(id=idFactura)
 	else:
 		factura=VentaMaestro()
-	factura.cliente=User(id=1)
-	factura.vendedor=User(id=1)
+
+	factura.cliente=User(id=(int(request.POST['idcliente_p']),1)[request.POST['idcliente_p']==''])
+	factura.vendedor=User(id=(int(request.POST['idvendedor_p']),1)[request.POST['idvendedor_p']==''])
 	valorPropina=(request.POST['propina_p'],'10')[request.POST['propina_p']=='']
 	mesa=(request.POST['mesa_p'],'0')[request.POST['mesa_p']=='']
 	factura.valorPropina=int(valorPropina)
