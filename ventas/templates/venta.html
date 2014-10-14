@@ -1,5 +1,6 @@
 {% extends "base_layout.html" %}
 {% block content %}
+{% load security_tags %}
 <div class="col-lg-12 page-header">
   <nav class="navbar navbar-default" role="navigation">
     <div class="container-fluid">
@@ -19,7 +20,7 @@
         <ul class="nav navbar-nav">
           <li class="active"><a href="#">Venta</a></li>
           <li><a href="/ventas/listar/">Pedido</a></li>
-          <li><a href="/ventas/">Nuevo</a></li>
+          <li><a href="/ventas/"><font color="#0174DF">Nuevo</font></a></li>
         </ul>
         <form id="frm-buscar" class="navbar-form navbar-left" role="search" action="/ventas/fac/">
           <div class="form-group">
@@ -48,48 +49,50 @@
       <div class="panel-body"> 
         <div class="form-group">
           <label for="factura" class="col-md-1 control-label">Factura:</label>
-          <div class="col-lg-5">
+          <div class="col-lg-5 col-md-5">
             <span class="input-group-lg">
               <input type="text" class="form-control" id="factura" name="factura" placeholder="Factura" size="20" readonly="true"> 
-              <input type="hidden" name="idFactura" id="idFactura" value="{{ventaMaestro.id}}"> 
+              <input type="hidden" name="idFactura" id="idFactura" value="{{ventaMaestro.id|default_if_none:""}}"> 
             </span>
           </div>
           <label for="fecha" class="col-md-1 control-label">Fecha:</label>
-          <div class="col-lg-2">
+          <div class="col-lg-2 col-md-2">
             <div class="input-group-lg">
               <input type="text" class="form-control" id="fecha" name="fecha" placeholder="Fecha" readonly="true" value="{{ ventaMaestro.fechaVenta|date:"D d M Y" }}">
              </div>
           </div>
           <label for="fecha" class="col-md-1 control-label">Hora:</label>
-          <div class="col-lg-2">
+          <div class="col-lg-2 col-md-2">
             <div class="input-group-lg">
              <input type="text" class="form-control" id="hora" name="hora" placeholder="Hora" readonly="true" value="{{ ventaMaestro.fechaVenta|time:"h:i A"}}">
            </div>
           </div>
           <label for="cliente" class="col-md-1 control-label">Cliente:</label>    
-          <div class="col-lg-5">
+          <div class="col-lg-5 col-md-5">
             <div class="input-group input-group-lg">
-              <input type="text" class="form-control" id="cliente_p" name="cliente_p" placeholder="Cliente">
+              <input type="text" class="form-control typeahead thead-lg" id="cliente_p" name="cliente_p" placeholder="Cliente" value="{{ventaMaestro.cliente.last_name}} {{ventaMaestro.cliente.first_name}}">
+              <input type="hidden" id="idcliente_p" name="idcliente_p" value="{{ventaMaestro.cliente.id}}">
               <span class="input-group-btn">
                 <button type="button" class="btn btn-default btn-lg" data-toggle="modal" data-target="#cliente">+</button>
               </span>
             </div>
           </div>
           <label for="vendedor" class="col-md-1 control-label">Vendedor:</label>    
-          <div class="col-lg-5">
+          <div class="col-lg-5 col-md-5">
             <div class="input-group-lg">
-              <input type="text" class="form-control" id="vendedor_p" name="vendedor_p" placeholder="Vendedor">
+              <input type="text" class="form-control typeahead thead-lg" id="vendedor_p" name="vendedor_p" placeholder="Vendedor" value="{{ventaMaestro.vendedor.last_name}} {{ventaMaestro.vendedor.first_name}}">
+              <input type="hidden" id="idvendedor_p" name="idvendedor_p" value="{{ventaMaestro.vendedor.id}}" >
             </div>
           </div>
 
           <label for="mesa" class="col-md-1 control-label">Mesa:</label>    
-          <div class="col-lg-5">
+          <div class="col-lg-5 col-md-5">
             <div class="input-group-lg">
               <input type="text" class="form-control" id="mesa_p" name="mesa_p" placeholder="Mesa" value="{{ventaMaestro.mesa}}">
             </div>
           </div>
           <label for="propina" class="col-md-1 control-label">Propina:</label>
-          <div class="col-lg-5">
+          <div class="col-lg-5 col-md-5">
             <div class="input-group input-group-lg">
               <input type="text" class="form-control" id="propina_p" name="propina_p" placeholder="Propina" value="{{ventaMaestro.valorPropina|default_if_none:"nothing"}}">
               <span class="input-group-btn">
@@ -98,7 +101,7 @@
               </span>
             </div>
           </div>
-          <div class="col-lg-12" align="center">
+          <div class="col-lg-12 col-md-12" align="center">
             <div class="btn btn-primary btn-lg col-md-12">
               <button type="button" class="btn btn-default btn-lg" id="btn-registrar-maestro">Guardar cambios</button>
             </div>
@@ -107,62 +110,68 @@
       </div>
     </div>
     </form>
-    
-    <form id="frm-detalle" class="form-inline" role="form" action="">
+
+    <form id="frm-detalle" class="form-group" role="form" action="">
       {% csrf_token %}
       <div class="panel panel-primary">
-      <div class="panel-heading">
-        <h3 class="panel-title"><font size="4">Datos Detalle.</font></h3>
-      </div>
-      <div class="panel-body form-inline">
-        <div class="col-lg-12">
-          <div class="form-group"> 
-            <div class="input-group">
-              <label class="sr-only" for="n_producto_p">Cod.Producto</label>
-              <input type="hidden" name="idproducto_p" id="idproducto_p"> 
-              <input type="text" class="form-control typeahead tt-query" id="n_producto_p" name="n_producto_p" placeholder="Código" size="10"> 
-            </div>
-
-            <div class="input-group">
-            <label class="sr-only" for="producto">Producto</label>
+        <div class="panel-heading">
+          <h3 class="panel-title"><font size="3">Datos Maestro.</font></h3>
+        </div>  
+        <div class="panel-body">
+          <div class="col-md-12">
+            <div class="form-group row">
+              <label  for="n_producto_p" class="col-md-1 control-label">Cod.Producto</label>
+              <div class="col-md-2">
+                <input type="hidden" name="idproducto_p" id="idproducto_p"> 
+                <input type="text" class="form-control typeahead" id="n_producto_p" name="n_producto_p" placeholder="Código" size="10">
+              </div>
+              <label for="producto" class="col-md-1 control-label">Producto</label>
+              <div class="col-md-2">
                 <input type="text" class="form-control" id="producto_p" name="producto_p" placeholder="Producto" size="30">
-            </div>
-            <div class="input-group">
-              <label class="sr-only" for="cantidad_p">Cantidad</label>
-              <input type="text" class="form-control" id="cantidad_p" name="cantidad_p" placeholder="Cantidad" value="1" size="3">
-            </div>
-            <div class="input-group">
-              <label class="sr-only" for="descuento_p">Descuento</label>
-              <input type="text" class="form-control" id="descuento_p" name="descuento_p" placeholder="Descuento" size="6" value="0">
-              <span class="input-group-btn">
+              </div>
+              <label for="cantidad_p" class="col-md-1 control-label">Cantidad</label>
+              <div class="col-md-2">
+                <input type="text" class="form-control" id="cantidad_p" name="cantidad_p" placeholder="Cantidad" value="1" size="3">
+              </div>
+              <label for="descuento_p" class="col-md-1 control-label">Descuento</label>
+              <div class="col-md-2 input-group">
+                <input type="text" class="form-control" id="descuento_p" name="descuento_p" placeholder="Descuento" size="6" value="0">
+                <span class="input-group-btn">
                 <button type="button" class="btn btn-default btn">%</button>
                 <button type="button" class="btn btn-default btn">$</button>
-              </span>
+                </span>            
+              </div>
             </div>
-            <div class="input-group">
-              <label class="sr-only" for="unitario_p">Valor Unitario</label>
-              <span class="input-group-addon">v/u</span>
-              <input type="text" class="form-control" id="unitario_p" name="unitario_p" placeholder="Valor Unitario" size="6" readonly="true" value="1000">
-            </div>
-            <div class="input-group">
-              <label class="sr-only" for="valori_p">Valor IVA</label>
-              <span class="input-group-addon">iva</span>
-              <input type="text" class="form-control" id="valori_p" name="valori_p" placeholder="Valor IVA" size="6" readonly="true" value="0">
-            </div>
-            <div class="input-group">
-              <span class="input-group-addon">$</span>
-              <label class="sr-only" for="valort_p">Valor Total</label>
-              <input type="text" class="form-control" id="valort_p" name="valort_p" placeholder="Valor Total" size="6" readonly="true">
-            </div>
-            <input type="hidden" name="idFacturaD" id="idFacturaD" value="{{ventaMaestro.id}}"> 
-            <button type="button" id="btn-add-detalle" class="btn btn-primary btn-lg">+</button>
-            <button type="reset" class="btn btn-danger btn-lg">C</button>
-          </div> 
-        </div>   
-      </div>
-     </div> 
-  </form>
+          </div>
 
+          <div class="col-md-12">
+            <div class="form-group row">
+              <label for="unitario_p" class="col-md-1 control-label">Valor Unitario</label>
+              <div class="col-md-2">
+                <input type="text" class="form-control" id="unitario_p" name="unitario_p" placeholder="Valor Unitario" size="6" readonly="true" value="1000" tabindex=0>
+              </div>
+              <label for="valori_p" class="col-md-1 control-label">Valor IVA</label>
+              <div class="col-md-2">
+                <input type="text" class="form-control" id="valori_p" name="valori_p" placeholder="Valor IVA" size="6" readonly="true" value="0" tabindex=0>
+              </div>
+              <label for="valort_p" class="col-md-1 control-label">Valor Total</label>  
+              <div class="col-md-2">
+                <input type="text" class="form-control" id="valort_p" name="valort_p" placeholder="Valor Total" size="6" readonly="true" tabindex=0>
+                <input type="hidden" name="idFacturaD" id="idFacturaD" value="{{ventaMaestro.id|default_if_none:""}}">
+              </div>
+              <label for="opc1" class="sr-only">Opciones</label>  
+              <div class="col-md-2">
+                <button type="button" id="btn-add-detalle" class="btn btn-primary btn-lg">+</button>
+                <button type="reset" class="btn btn-danger btn-lg">C</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+    
+    
   <div class="col-12-lg">
     <div class="panel panel-primary page-header">
       <div class="panel-heading">Listado de productos. <strong>Fecha: {{ ventaMaestro.fechaVenta|date:"D d M Y" }}</strong> </div>
@@ -188,8 +197,8 @@
                   <td>{{detalle.cantidad}}</td>
                   <td>$ {{detalle.descuento}}</td>
                   <td>$ {{detalle.valorUni}}</td>
-                  <td>$ {{detalle.iva}}</td>
-                  <td>$ {% widthratio detalle.valorUni 1 detalle.cantidad %}</td>
+                  <td>{{detalle.iva}}%</td>
+                  <td>$ {{ dictTotales|access:detalle.id }}</td>
                   <td><button type="button" class="btn btn-default btn-xs">
                       <a href=""><span class="glyphicon glyphicon-edit"></span></a></button>
                     <button type="button" class="btn btn-default btn-xs">
@@ -197,31 +206,18 @@
                   </td>
                 </tr>
                {% endfor %}
-            <!--<tr>
-              <td>1001</td>
-              <td>Gaseosa 350</td>
-              <td>1</td>
-              <td>0</td>
-              <td>$ 1500</td>
-              <td>$ 150</td>
-              <td>$ 1650</td>
-              <td><button type="button" class="btn btn-default btn-xs">
-                  <a href=""><span class="glyphicon glyphicon-edit"></span></a></button>
-                <button type="button" class="btn btn-default btn-xs">
-                  <a href=""><span class="glyphicon glyphicon-trash"></span></a></button>
-              </td>
-            </tr>-->
+            
             <tr class="info">
                 <td colspan="6"><strong>Sub-Total</strong></td>
-                <td colspan="2" id="td-maestro-subtotal"><strong>$ 0.00</strong></td>
+                <td colspan="2" id="td-maestro-subtotal"><strong>$ {{ dictTotales|access:'subTotal'}}</strong></td>
             </tr>
             <tr class="info">
                 <td colspan="6"><strong>IVA</strong></td>
-                <td colspan="2" id="td-maestro-iva"><strong>$ 0.00</strong></td>
+                <td colspan="2" id="td-maestro-iva"><strong>$ {{ dictTotales|access:'ivaTotal'}}</strong></td>
             </tr>
             <tr class="info">
                 <td colspan="6"><strong>Total</strong></td>
-                <td colspan="2" id="td-maestro-total"><strong>$ 0.00</strong></td>
+                <td colspan="2" id="td-maestro-total"><strong>$ {{ dictTotales|access:'granTotal'}}</strong></td>
             </tr>
             </tbody>
           </table>
