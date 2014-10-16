@@ -1,6 +1,7 @@
 {% extends "base_layout.html" %}
 {% block content %}
 {% load security_tags %}
+<!--Barra de navegación-->
 <div class="col-lg-12 page-header">
   <nav class="navbar navbar-default" role="navigation">
     <div class="container-fluid">
@@ -19,7 +20,6 @@
       <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
         <ul class="nav navbar-nav">
           <li class="active"><a href="#">Venta</a></li>
-          <li><a href="/ventas/listar/">Pedido</a></li>
           <li><a href="/ventas/"><font color="#0174DF">Nuevo</font></a></li>
         </ul>
         <form id="frm-buscar" class="navbar-form navbar-left" role="search" action="/ventas/fac/">
@@ -30,16 +30,23 @@
           <span class="glyphicon glyphicon-search"></span></button>  
         </form>
         <ul class="nav navbar-nav">
+          <li id="btn-anular"><a href="#">Anular</a></li>
+          <li><a href="#" id="btn-imprimir" data-toggle="modal" data-target="#venta">Imprimir</a></li>
+          <li><a href="#" id="btn-pagar"><font color="#31B404"><strong>Registrar Pago</font></strong></a></li>
+        </ul>
+        <!--
+        <ul class="nav navbar-nav">
           <li><button class="btn btn-danger btn-lg">Anular</button></li>
           <li><button class="btn btn-primary btn-lg" data-toggle="modal" data-target="#venta">Imprimir</button></li>
         </ul>
+        -->
         <ul class="nav navbar-nav navbar-right">
           <li><a href="/admin/logout">Salir</a></li>
         </ul>
       </div><!-- /.navbar-collapse -->
     </div><!-- /.container-fluid -->
   </nav>
-
+<!--Panel Maestro de venta -->
   <form  id="frm-maestro" class="form-horizontal" role="form" action="">
     {% csrf_token %}  
     <div class="panel panel-primary">
@@ -109,61 +116,60 @@
         </div>        
       </div>
     </div>
-    </form>
-
-    <form id="frm-detalle" class="form-group" role="form" action="">
-      {% csrf_token %}
-      <div class="panel panel-primary">
-        <div class="panel-heading">
-          <h3 class="panel-title"><font size="3">Datos Maestro.</font></h3>
-        </div>  
-        <div class="panel-body">
-          <div class="col-md-12">
-            <div class="form-group row">
-              <label  for="n_producto_p" class="col-md-1 control-label">Cod.Producto</label>
-              <div class="col-md-2">
-                <input type="hidden" name="idproducto_p" id="idproducto_p"> 
-                <input type="text" class="form-control typeahead" id="n_producto_p" name="n_producto_p" placeholder="Código" size="10">
-              </div>
-              <label for="producto" class="col-md-1 control-label">Producto</label>
-              <div class="col-md-2">
-                <input type="text" class="form-control" id="producto_p" name="producto_p" placeholder="Producto" size="30">
-              </div>
-              <label for="cantidad_p" class="col-md-1 control-label">Cantidad</label>
-              <div class="col-md-2">
-                <input type="text" class="form-control" id="cantidad_p" name="cantidad_p" placeholder="Cantidad" value="1" size="3">
-              </div>
-              <label for="descuento_p" class="col-md-1 control-label">Descuento</label>
-              <div class="col-md-2 input-group">
-                <input type="text" class="form-control" id="descuento_p" name="descuento_p" placeholder="Descuento" size="6" value="0">
-                <span class="input-group-btn">
-                <button type="button" class="btn btn-default btn">%</button>
-                <button type="button" class="btn btn-default btn">$</button>
-                </span>            
-              </div>
+  </form>
+<!--Panel detalle de venta-->
+  <form id="frm-detalle" class="form-group" role="form" action="">
+  {% csrf_token %}
+    <div class="panel panel-primary">
+      <div class="panel-heading">
+        <h3 class="panel-title"><font size="3">Datos detalle.</font></h3>
+      </div>  
+      <div class="panel-body">
+        <div class="col-md-12">
+          <div class="form-group row">
+            <label  for="n_producto_p" class="col-md-1 control-label">Cod.Producto</label>
+            <div class="col-md-2">
+              <input type="hidden" name="idproducto_p" id="idproducto_p"> 
+              <input type="text" class="form-control typeahead" id="n_producto_p" name="n_producto_p" placeholder="Código" size="10">
+            </div>
+            <label for="producto" class="col-md-1 control-label">Producto</label>
+            <div class="col-md-2">
+              <input type="text" class="form-control" id="producto_p" name="producto_p" placeholder="Producto" size="30">
+            </div>
+            <label for="cantidad_p" class="col-md-1 control-label">Cantidad</label>
+            <div class="col-md-2">
+              <input type="text" class="form-control" id="cantidad_p" name="cantidad_p" placeholder="Cantidad" value="1" size="3">
+            </div>
+            <label for="descuento_p" class="col-md-1 control-label">Descuento</label>
+            <div class="col-md-2 input-group">
+              <input type="text" class="form-control" id="descuento_p" name="descuento_p" placeholder="Descuento" size="6" value="0">
+              <span class="input-group-btn">
+              <button type="button" class="btn btn-default btn">%</button>
+              <button type="button" class="btn btn-default btn">$</button>
+              </span>            
             </div>
           </div>
+        </div>
 
-          <div class="col-md-12">
-            <div class="form-group row">
-              <label for="unitario_p" class="col-md-1 control-label">Valor Unitario</label>
-              <div class="col-md-2">
-                <input type="text" class="form-control" id="unitario_p" name="unitario_p" placeholder="Valor Unitario" size="6" readonly="true" value="1000" tabindex=0>
-              </div>
-              <label for="valori_p" class="col-md-1 control-label">Valor IVA</label>
-              <div class="col-md-2">
-                <input type="text" class="form-control" id="valori_p" name="valori_p" placeholder="Valor IVA" size="6" readonly="true" value="0" tabindex=0>
-              </div>
-              <label for="valort_p" class="col-md-1 control-label">Valor Total</label>  
-              <div class="col-md-2">
-                <input type="text" class="form-control" id="valort_p" name="valort_p" placeholder="Valor Total" size="6" readonly="true" tabindex=0>
-                <input type="hidden" name="idFacturaD" id="idFacturaD" value="{{ventaMaestro.id|default_if_none:""}}">
-              </div>
-              <label for="opc1" class="sr-only">Opciones</label>  
-              <div class="col-md-2">
-                <button type="button" id="btn-add-detalle" class="btn btn-primary btn-lg">+</button>
-                <button type="reset" class="btn btn-danger btn-lg">C</button>
-              </div>
+        <div class="col-md-12">
+          <div class="form-group row">
+            <label for="unitario_p" class="col-md-1 control-label">Valor Unitario</label>
+            <div class="col-md-2">
+              <input type="text" class="form-control" id="unitario_p" name="unitario_p" placeholder="Valor Unitario" size="6" readonly="true" value="1000" tabindex=0>
+            </div>
+            <label for="valori_p" class="col-md-1 control-label">Valor IVA</label>
+            <div class="col-md-2">
+              <input type="text" class="form-control" id="valori_p" name="valori_p" placeholder="Valor IVA" size="6" readonly="true" value="0" tabindex=0>
+            </div>
+            <label for="valort_p" class="col-md-1 control-label">Valor Total</label>  
+            <div class="col-md-2">
+              <input type="text" class="form-control" id="valort_p" name="valort_p" placeholder="Valor Total" size="6" readonly="true" tabindex=0>
+              <input type="hidden" name="idFacturaD" id="idFacturaD" value="{{ventaMaestro.id|default_if_none:""}}">
+            </div>
+            <label for="opc1" class="sr-only">Opciones</label>  
+            <div class="col-md-2">
+              <button type="button" id="btn-add-detalle" class="btn btn-primary btn-lg">+</button>
+              <button type="reset" class="btn btn-danger btn-lg">C</button>
             </div>
           </div>
         </div>
@@ -174,7 +180,7 @@
     
   <div class="col-12-lg">
     <div class="panel panel-primary page-header">
-      <div class="panel-heading">Listado de productos. <strong>Fecha: {{ ventaMaestro.fechaVenta|date:"D d M Y" }}</strong> </div>
+      <div class="panel-heading">Listado de productos.</div>
         <div class="panel-body table-responsive">
           <table id="tbl-detalles" class="table table-striped table-hover" width="100%">
             <thead>
