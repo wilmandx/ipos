@@ -10,6 +10,7 @@ urlpatterns = patterns('',
     url(r'^clientes/', views.clientes, name='clientes'),
     url(r'^vendedores/', views.vendedores, name='vendedores'),
     url(r'^codproducto/', views.codproducto, name='codproducto'),
+    url(r'^nomproducto/', views.nomproducto, name='nomproducto'),
     url(r'^save/$', views.savePedido, name='save'),
     url(r'^saveDetalle/$', views.saveDetalle, name='saveDetalle'),
 )

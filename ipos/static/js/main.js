@@ -79,7 +79,7 @@ function iniciarVentas(){
     });
 	/****************************************************/
 
-	/****Typeahead de los productos**********************/
+	/****Typeahead de los codigos de productos******************/
 	var prodRemote = new Bloodhound({
 	  datumTokenizer: Bloodhound.tokenizers.obj.whitespace('codigo'),
 	  queryTokenizer: Bloodhound.tokenizers.whitespace,
@@ -102,10 +102,35 @@ function iniciarVentas(){
     	$('#valort_p').val(datum.valorVenta);
     	$('#valori_p').val(datum.iva);
     	$('#idproducto_p').val(datum.id);
+    	$('#cantidad_p').focus().select();;
+    });
+	/*******************************************************/
+	/****Typeahead de los nombres de productos******************/
+	var nameProdRemote = new Bloodhound({
+	  datumTokenizer: Bloodhound.tokenizers.obj.whitespace('nombre'),
+	  queryTokenizer: Bloodhound.tokenizers.whitespace,
+	  remote: '/ventas/nomproducto/?q=%QUERY'
+	});
+	nameProdRemote.initialize();
+	$('#producto_p.typeahead').typeahead(null, {
+	  name: 'productos_name',
+	  displayKey: 'nombre',
+	  templates: {
+	        suggestion: function (item) {
+	            return '<p>' + item.codigo + ' - '+item.nombre+'</p>';
+	        }
+	  },
+	  source: nameProdRemote.ttAdapter()
+	}).bind('typeahead:selected', function(obj, datum) {
+        $('#n_producto_p').val(datum.codigo);
+    	$('#producto_p').val(datum.nombre);
+    	$('#unitario_p').val(datum.valorVenta);
+    	$('#valort_p').val(datum.valorVenta);
+    	$('#valori_p').val(datum.iva);
+    	$('#idproducto_p').val(datum.id);
     	$('#cantidad_p').focus();
     });
 	/*******************************************************/
-	
 
 	$('#btn-registrar-maestro').click(
 		function(){
@@ -117,6 +142,12 @@ function iniciarVentas(){
 			saveDetalle();
 		}
 	);
+
+	$('#cantidad_p').keyup(function() {
+	  console.log($(this).val());
+	  cantidad=parseInt($(this).val());
+	  $('#valort_p').val(cantidad*parseInt($('#unitario_p').val()));
+	});
 		
 }
 function savePedido(){
@@ -124,7 +155,7 @@ function savePedido(){
 	ajax.done(function( data ) {
     	//var factura = JSON.parse(data);
     	$("#idFactura").val(data.nroFactura);
-    	$("#factura").val(data.nroFactura);
+    	//$("#factura").val(data.nroFactura);
     	$("#idFacturaD").val(data.nroFactura);
     	$("#fecha").val(data.fechaVenta);
     	$("#hora").val(data.horaVenta);
@@ -137,6 +168,12 @@ function savePedido(){
 }
 
 function saveDetalle(){
+	var idFactura=0;
+	idFactura=$("#idFactura").val();
+	if(!idFactura){
+		alert('No ha guardado aun el pedido por primera vez');
+		return;
+	}
 	ajax=$.post( "/ventas/saveDetalle/", $("#frm-detalle").serialize());
 	ajax.done(function( data ) {
 		//Agregar el item a la tabla...
@@ -159,6 +196,8 @@ function saveDetalle(){
     	tr.append($('<td />').html(valorSubtotal));
     	tr.append($('<td />').html(total-valorSubtotal));
     	tr.append($('<td />').html(total));
+    	btnes='<button type="button" class="btn btn-default btn-xs"><a href=""><span class="glyphicon glyphicon-edit"></span></a></button><button type="button" class="btn btn-default btn-xs"><a href=""><span class="glyphicon glyphicon-trash"></span></a></button>';
+    	tr.append($('<td />').html(btnes));
     	$('#tbl-detalles').prepend(tr);
     	//Actualizar el gran total
     	grantotal=grantotal+total;
