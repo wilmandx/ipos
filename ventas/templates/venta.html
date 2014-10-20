@@ -134,7 +134,7 @@
             </div>
             <label for="producto" class="col-md-1 control-label">Producto</label>
             <div class="col-md-2">
-              <input type="text" class="form-control" id="producto_p" name="producto_p" placeholder="Producto" size="30">
+              <input type="text" class="form-control typeahead" id="producto_p" name="producto_p" placeholder="Producto" size="30">
             </div>
             <label for="cantidad_p" class="col-md-1 control-label">Cantidad</label>
             <div class="col-md-2">
@@ -186,13 +186,13 @@
             <thead>
               <tr>
                 <th width="10%">Código</th>
-                <th width="40%">Descripción</th>
+                <th width="30%">Descripción</th>
                 <th width="10%">Cantidad</th>
                 <th width="10%">Descuento</th>
                 <th width="10%">Valor</th>
                 <th width="10%">IVA</th>
                 <th width="10%">Total</th>
-                <th width="10%">Opciones</th>
+                <th width="20%">Opciones</th>
               </tr>
             </thead>
             <tbody>
@@ -205,10 +205,12 @@
                   <td>$ {{detalle.valorUni}}</td>
                   <td>{{detalle.iva}}%</td>
                   <td>$ {{ dictTotales|access:detalle.id }}</td>
-                  <td><button type="button" class="btn btn-default btn-xs">
+                  <td><button type="button" id="btn-editItem" class="btn btn-default btn-sm">
                       <a href=""><span class="glyphicon glyphicon-edit"></span></a></button>
-                    <button type="button" class="btn btn-default btn-xs">
+                    <button type="button" id="btn-delItem" class="btn btn-default btn-sm">
                       <a href=""><span class="glyphicon glyphicon-trash"></span></a></button>
+                    <button type="button" id="btn-obserItem" class="btn btn-default btn-sm">
+                      <a href=""><span class="glyphicon glyphicon-eye-open"></span></a></button>
                   </td>
                 </tr>
                {% endfor %}
@@ -241,17 +243,18 @@
         <div class="modal-content">
           <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-            <h4 class="modal-title" id="myModalLabel">Factura de venta</h4>
+            <h4 class="modal-title" id="myModalLabel">Pedido: 1</h4>
           </div>
           <div class="modal-body">
-            <p>
-              Empresa <br/>
-              Nit <br/>
-              Dirección <br/>
-              Telefono <br/>
+            <p align="center">
+              PASTELERIA LA LUCERNA S.A.S <br/>
+              Nit: 891410059 REGIMEN COMUN <br/>
+              CL 19 NO 6-43 <br/>
+              Teléfono: 3250251 <br/>
+              Ciudad: Pereira <br/>
             </p>
             <p>
-              Cliente:
+              Cliente: Público General
               CC/Nit: 
               Dirección:
               Teléfono:
