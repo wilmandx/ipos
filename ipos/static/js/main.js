@@ -102,7 +102,7 @@ function iniciarVentas(){
     	$('#valort_p').val(datum.valorVenta);
     	$('#valori_p').val(datum.iva);
     	$('#idproducto_p').val(datum.id);
-    	$('#cantidad_p').focus().select();;
+    	$('#cantidad_p').focus().select();
     });
 	/*******************************************************/
 	/****Typeahead de los nombres de productos******************/
@@ -142,12 +142,26 @@ function iniciarVentas(){
 			saveDetalle();
 		}
 	);
-
 	$('#cantidad_p').keyup(function() {
-	  console.log($(this).val());
 	  cantidad=parseInt($(this).val());
 	  $('#valort_p').val(cantidad*parseInt($('#unitario_p').val()));
 	});
+
+	$('.btn-editItem').click(
+		function(){
+			loadDetalle($(this));
+		}
+	);
+	$('#btn-delItem').click(
+		function(){
+			deleteDetalle();
+		}
+	);
+	$('#btn-obserItem').click(
+		function(){
+			observacionDetalle();
+		}
+	);
 		
 }
 function savePedido(){
@@ -160,7 +174,7 @@ function savePedido(){
     	$("#fecha").val(data.fechaVenta);
     	$("#hora").val(data.horaVenta);
   	});
-  	ajax.fail(function( data ) {
+  	ajax.fail(function(data) {
   		alert('Error');
   	});
   	grantotal=0;
@@ -214,4 +228,16 @@ function saveDetalle(){
 	ajax.fail(function( data ) {
   		alert('Error');
   	});
+}
+function loadDetalle(boton){
+	tr=boton.parent().parent();
+	$('#n_producto_p').val(tr.children()[0].innerHTML);
+	$('#producto_p').val(tr.children()[1].innerHTML);
+	$('#cantidad_p').val(tr.children()[2].innerHTML);
+	$('#unitario_p').val(tr.children()[4].innerHTML);
+	$('#valort_p').val(tr.children()[3].innerHTML);
+	$('#descuento_p').val(tr.children()[3].innerHTML);
+	$('#valori_p').val(tr.children()[5].innerHTML);
+	$('#idproducto_p').val(tr.children()[0].innerHTML);
+	$('#n_producto_p').focus().select();
 }
