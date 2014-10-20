@@ -6,6 +6,7 @@ from django.http import HttpResponse
 import json
 from ventas.models import VentaMaestro,VentaDetalle
 from django.utils import formats
+from django.db.models import Q
 
 # Create your views here.
 class Categoria:
@@ -88,7 +89,7 @@ def listar(request):
 def clientes(request):
 	query = request.GET.get('q','')
 	if(len(query) > 0):
-		results = User.objects.filter(last_name__istartswith=query)
+		results = User.objects.filter(Q(last_name__icontains=query)|Q(first_name__icontains=query))
 		result_list = []
 		for item in results:
 			result_list.append({'id':item.id,'nombre_completo':item.last_name+' '+item.first_name})
@@ -101,7 +102,7 @@ def clientes(request):
 def vendedores(request):
 	query = request.GET.get('q','')
 	if(len(query) > 0):
-		results = User.objects.filter(last_name__istartswith=query)
+		results = User.objects.filter(Q(last_name__icontains=query)|Q(first_name__icontains=query))
 		result_list = []
 		for item in results:
 			result_list.append({'id':item.id,'nombre_completo':item.last_name+' '+item.first_name})
@@ -114,7 +115,20 @@ def vendedores(request):
 def codproducto(request):
 	query = request.GET.get('q','')
 	if(len(query) > 0):
-		results = Producto.objects.filter(codigo__istartswith=query)
+		results = Producto.objects.filter(codigo__icontains=query)
+		result_list = []
+		for item in results:
+			result_list.append({'id':item.id,'nombre':item.nombre,'codigo':item.codigo,'valorVenta':item.valorVenta,'iva':item.ivaPorcentaje})
+	else:
+		result_list = []
+	response_text = json.dumps(result_list, separators=(',',':'))
+	return HttpResponse(response_text, content_type="application/json")
+
+@login_required
+def nomproducto(request):
+	query = request.GET.get('q','')
+	if(len(query) > 0):
+		results = Producto.objects.filter(nombre__icontains=query)
 		result_list = []
 		for item in results:
 			result_list.append({'id':item.id,'nombre':item.nombre,'codigo':item.codigo,'valorVenta':item.valorVenta,'iva':item.ivaPorcentaje})
