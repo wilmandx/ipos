@@ -10,6 +10,14 @@
     text-align: right;
 }
 
+#navigation{
+  display: none;
+}
+
+#page-wrapper{
+  margin:0 0;
+}
+
 /**TYPEAHEAD  Autocomplete estilos **/
 .thead-lg{
   height: 46px;

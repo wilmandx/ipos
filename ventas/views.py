@@ -147,7 +147,7 @@ def savePedido(request):
 		factura=VentaMaestro()
 	factura.cliente=User(id=(int(request.POST['idcliente_p']),1)[request.POST['idcliente_p']==''])
 	factura.vendedor=User(id=(int(request.POST['idvendedor_p']),1)[request.POST['idvendedor_p']==''])
-	factura.valorPropina=int((request.POST['propina_p'],'0')[request.POST['propina_p']==''])
+	#factura.valorPropina=int((request.POST['propina_p'],'0')[request.POST['propina_p']==''])
 	factura.mesa=int((request.POST['mesa_p'],'0')[request.POST['mesa_p']==''])
 	factura.save()
 
@@ -157,12 +157,18 @@ def savePedido(request):
 @login_required
 def saveDetalle(request):
 	factura=None
+
 	if request.POST['idFacturaD']!='':
 		idFactura=int(request.POST['idFacturaD'])
 		factura=VentaMaestro.objects.get(id=idFactura)
-	#Guardar los detalles
+	
+	if request.POST['iddetalle_p']!='':
+		idDetalle=int(request.POST['iddetalle_p'])
+		ventaDetalle=VentaDetalle.objects.get(id=idDetalle)
+	else:
+		ventaDetalle=VentaDetalle()
+
 	idProducto=int(request.POST['idproducto_p'])
-	ventaDetalle=VentaDetalle()
 	ventaDetalle.ventaMaestro=factura
 	ventaDetalle.producto=Producto(id=idProducto)
 	ventaDetalle.cantidad=int(request.POST['cantidad_p'])
@@ -171,4 +177,11 @@ def saveDetalle(request):
 	ventaDetalle.descuento=int(request.POST['descuento_p'])
 	ventaDetalle.save()
 	response_text = {'idDetalle':ventaDetalle.id}
+	return HttpResponse(json.dumps(response_text), content_type="application/json")
+
+@login_required
+def deleteDetalle(request,id):
+	ventaDetalle=VentaDetalle.objects.get(id=id)
+	ventaDetalle.delete()
+	response_text = {'code':'00'}
 	return HttpResponse(json.dumps(response_text), content_type="application/json")

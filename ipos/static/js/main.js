@@ -34,10 +34,10 @@ function iniciarInterfazPrincipal(){
 			$('#navigation').toggle(
 				function(){
 					if($('#navigation').is(':hidden')){
-			        $('#page-wrapper').css('margin','0 0');
-			    }else{
-			        $('#page-wrapper').css('margin','0 0 0 250px');
-			    } 						
+			        	$('#page-wrapper').css('margin','0 0');
+				    }else{
+				        $('#page-wrapper').css('margin','0 0 0 250px');
+				    } 						
 				}
 			);
 			
@@ -146,25 +146,32 @@ function iniciarVentas(){
 	  cantidad=parseInt($(this).val());
 	  $('#valort_p').val(cantidad*parseInt($('#unitario_p').val()));
 	});
+	eventosDetalleFactura();
+	
+		
+}
 
+function eventosDetalleFactura(){
 	$('.btn-editItem').click(
 		function(){
 			loadDetalle($(this));
 		}
 	);
-	$('#btn-delItem').click(
+	$('.btn-delItem').click(
 		function(){
-			deleteDetalle();
+			deleteDetalle($(this));
 		}
 	);
-	$('#btn-obserItem').click(
+	$('.btn-obserItem').click(
 		function(){
-			observacionDetalle();
+			Print();
+			//observacionDetalle();
 		}
 	);
-		
 }
+
 function savePedido(){
+	//labelButton=$(this).get();
 	ajax=$.post( "/ventas/save/", $("#frm-maestro").serialize());
 	ajax.done(function( data ) {
     	//var factura = JSON.parse(data);
@@ -177,8 +184,6 @@ function savePedido(){
   	ajax.fail(function(data) {
   		alert('Error');
   	});
-  	grantotal=0;
-  	granSubTotal=0;
 }
 
 function saveDetalle(){
@@ -192,6 +197,7 @@ function saveDetalle(){
 	ajax.done(function( data ) {
 		//Agregar el item a la tabla...
     	codigo=$('#n_producto_p').val();
+    	idProducto=$('#idproducto_p').val();
     	producto=$('#producto_p').val();
     	cantidad=$('#cantidad_p').val();
     	descuento=$('#descuento_p').val();
@@ -203,27 +209,33 @@ function saveDetalle(){
     	total=parseInt(cantidad)*parseInt(valor)-parseInt(descuento);
     	valorSubtotal=(total*iva)/100;
     	var tr = $('<tr />');
-    	tr.append($('<td />').html(codigo));
+    	tr.append($('<td />').html('<spam class="hide">'+data.idDetalle+'</spam><spam class="hide">'+idProducto+'</spam><spam>'+codigo+'</spam>'));
     	tr.append($('<td />').html(producto));
     	tr.append($('<td />').html(cantidad));
-    	tr.append($('<td />').html(descuento));
-    	tr.append($('<td />').html(valorSubtotal));
-    	tr.append($('<td />').html(total-valorSubtotal));
-    	tr.append($('<td />').html(total));
-    	btnes='<button type="button" class="btn btn-default btn-xs"><a href=""><span class="glyphicon glyphicon-edit"></span></a></button><button type="button" class="btn btn-default btn-xs"><a href=""><span class="glyphicon glyphicon-trash"></span></a></button>';
+    	tr.append($('<td />').html('<spam>$</spam><spam>'+descuento+'</spam>'));
+    	tr.append($('<td />').html('<spam>$</spam><spam>'+valor+'</spam>'));
+    	tr.append($('<td />').html('<spam>'+iva+'</spam><spam>%</spam>'));
+    	tr.append($('<td />').html('<spam>$</spam><spam>'+total+'</spam>'));
+    	btnes='<button type="button" class="btn-editItem btn btn-default btn-sm">'+
+                      '<span class="glyphicon glyphicon-edit"></span></button>&nbsp;'+
+                    '<button type="button" class="btn-delItem btn btn-default btn-sm">'+
+                      '<span class="glyphicon glyphicon-trash"></span></button>&nbsp;'+
+                    '<button type="button" class="btn-obserItem btn btn-default btn-sm">'+
+                      '<span class="glyphicon glyphicon-eye-open"></span></button>';
     	tr.append($('<td />').html(btnes));
     	$('#tbl-detalles').prepend(tr);
     	//Actualizar el gran total
-    	grantotal=grantotal+total;
-    	granSubTotal=granSubTotal+valorSubtotal;
-    	$('#tbl-detalles #td-maestro-subtotal').html('<strong>$'+granSubTotal+'.00</strong>');
-    	$('#tbl-detalles #td-maestro-iva').html('<strong>$'+(grantotal-granSubTotal)+'.00</strong>');
-    	$('#tbl-detalles #td-maestro-total').html('<strong>$'+grantotal+'.00</strong>');
+    	grantotal=parseInt($('#tbl-detalles tr.total td:nth-child(2)').children()[1].innerHTML)+total;
+    	granSubTotal=parseInt($('#tbl-detalles tr.subtotal td:nth-child(2)').children()[1].innerHTML)+valorSubtotal;
+    	$('#tbl-detalles #td-maestro-subtotal').html('<strong>$</strong><strong>'+granSubTotal+'.00</strong>');
+    	$('#tbl-detalles #td-maestro-iva').html('<strong>$</strong><strong>'+(grantotal-granSubTotal)+'.00</strong>');
+    	$('#tbl-detalles #td-maestro-total').html('<strong>$</strong><strong>'+grantotal+'.00</strong>');
 
     	$('#frm-detalle').each (function(){
 		  this.reset();
 		});
-		$('#n_producto_p').focus();
+		$('#n_producto_p').focus().select();
+		eventosDetalleFactura();
 	});
 	ajax.fail(function( data ) {
   		alert('Error');
@@ -231,13 +243,44 @@ function saveDetalle(){
 }
 function loadDetalle(boton){
 	tr=boton.parent().parent();
-	$('#n_producto_p').val(tr.children()[0].innerHTML);
+	
+	$('#iddetalle_p').val($(tr.children()[0]).children()[0].innerHTML);
+	$('#idproducto_p').val($(tr.children()[0]).children()[1].innerHTML);
+	$('#n_producto_p').val($(tr.children()[0]).children()[2].innerHTML);
+
 	$('#producto_p').val(tr.children()[1].innerHTML);
 	$('#cantidad_p').val(tr.children()[2].innerHTML);
-	$('#unitario_p').val(tr.children()[4].innerHTML);
-	$('#valort_p').val(tr.children()[3].innerHTML);
-	$('#descuento_p').val(tr.children()[3].innerHTML);
-	$('#valori_p').val(tr.children()[5].innerHTML);
-	$('#idproducto_p').val(tr.children()[0].innerHTML);
-	$('#n_producto_p').focus().select();
+	$('#descuento_p').val($(tr.children()[3]).children()[1].innerHTML);
+	$('#unitario_p').val($(tr.children()[4]).children()[1].innerHTML);
+	$('#valori_p').val($(tr.children()[5]).children()[0].innerHTML);
+	$('#valort_p').val($(tr.children()[6]).children()[1].innerHTML);
+	
+	$('#cantidad_p').focus().select();
+}
+
+function deleteDetalle(boton){
+	tr=boton.parent().parent();
+	idDetalle=$(tr.children()[0]).children()[0].innerHTML;
+	ajax=$.get("/ventas/deleteDetalle/"+idDetalle+"/");
+	ajax.done(function( data ) {
+    	tr.fadeOut("slow", function () {
+            tr.remove();
+        });
+  	});
+  	ajax.fail(function(data) {
+  		alert('Error');
+  	});
+}
+
+function Print() {
+   var printWin = window.open('', '', 'left=0,top=0,width=300,height=600,status=0');
+    var toPrint = document.getElementById('facturita').innerHTML;
+    printWin.document.open();
+    printWin.document.write(toPrint);
+    printWin.document.close();
+    printWin.focus();
+    printWin.print();
+    printWin.close();
+    console.log('imprimir...');
+    return false;
 }
