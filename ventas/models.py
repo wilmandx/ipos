@@ -13,6 +13,7 @@ class VentaMaestro(models.Model):
 	cajero = models.ForeignKey(User,related_name='+')
 	mesa = models.IntegerField(default=1)
 	valorPropina = models.IntegerField(default=0)
+	descuento = models.IntegerField(default=0)
 	nroAprobacionTC = models.IntegerField(default=0)
 
 class VentaDetalle(models.Model):
