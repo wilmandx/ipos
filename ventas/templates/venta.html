@@ -32,7 +32,7 @@
         <ul class="nav navbar-nav">
           <li id="btn-anular"><a href="#">Anular</a></li>
           <li><a href="#" id="btn-imprimir" data-toggle="modal" data-target="#venta">Imprimir</a></li>
-          <li><a href="#" id="btn-pagar"><font color="#31B404"><strong>Registrar Pago</font></strong></a></li>
+          <li><a href="#" id="btn-pagar" data-toggle="modal" data-target="#registrar_pago"><font color="#31B404"><strong>Registrar Pago</font></strong></a></li>
         </ul>
         <!--
         <ul class="nav navbar-nav">
@@ -98,20 +98,9 @@
               <input type="text" class="form-control" id="mesa_p" name="mesa_p" placeholder="Mesa" value="{{ventaMaestro.mesa}}">
             </div>
           </div>
-          <label for="propina" class="col-md-1 control-label">Propina:</label>
-          <div class="col-lg-5 col-md-5">
-            <div class="input-group input-group-lg">
-              <input type="text" class="form-control" id="propina_p" name="propina_p" placeholder="Propina" value="{{ventaMaestro.valorPropina|default_if_none:"nothing"}}">
-              <span class="input-group-btn">
-                <button type="button" class="btn btn-default btn-lg">%</button>
-                <button type="button" class="btn btn-default btn-lg">$</button>
-              </span>
-            </div>
-          </div>
-          <div class="col-lg-12 col-md-12" align="center">
-            <div class="btn btn-primary btn-lg col-md-12">
-              <button type="button" class="btn btn-default btn-lg" id="btn-registrar-maestro">Guardar cambios</button>
-            </div>
+          <label for="mesa" class="col-md-1 control-label">Opciones:</label>
+          <div class="btn-lg col-md-5">
+            <button type="button" class="btn btn-primary btn-lg" id="btn-registrar-maestro">Guardar maestro</button>
           </div>
         </div>        
       </div>
@@ -130,6 +119,7 @@
             <label  for="n_producto_p" class="col-md-1 control-label">Cod.Producto</label>
             <div class="col-md-2">
               <input type="hidden" name="idproducto_p" id="idproducto_p"> 
+              <input type="hidden" name="iddetalle_p" id="iddetalle_p"> 
               <input type="text" class="form-control typeahead" id="n_producto_p" name="n_producto_p" placeholder="Código" size="10">
             </div>
             <label for="producto" class="col-md-1 control-label">Producto</label>
@@ -198,34 +188,34 @@
             <tbody>
               {% for detalle in listDetalles %}
                 <tr>
-                  <td>{{detalle.producto.codigo}}</td>
+                  <td><spam class="hide">{{detalle.id}}</spam><spam class="hide">{{detalle.producto.id}}</spam><spam>{{detalle.producto.codigo}}</spam></td>
                   <td>{{detalle.producto}}</td>
                   <td>{{detalle.cantidad}}</td>
-                  <td>$ {{detalle.descuento}}</td>
-                  <td>$ {{detalle.valorUni}}</td>
-                  <td>{{detalle.iva}}%</td>
-                  <td>$ {{ dictTotales|access:detalle.id }}</td>
-                  <td><button type="button" id="btn-editItem" class="btn btn-default btn-sm">
-                      <a href=""><span class="glyphicon glyphicon-edit"></span></a></button>
-                    <button type="button" id="btn-delItem" class="btn btn-default btn-sm">
-                      <a href=""><span class="glyphicon glyphicon-trash"></span></a></button>
-                    <button type="button" id="btn-obserItem" class="btn btn-default btn-sm">
-                      <a href=""><span class="glyphicon glyphicon-eye-open"></span></a></button>
+                  <td><spam>$</spam><spam>{{detalle.descuento}}</spam></td>
+                  <td><spam>$</spam><spam>{{detalle.valorUni}}</spam></td>
+                  <td><spam>{{detalle.iva}}</spam><spam>%</spam></td>
+                  <td><spam>$</spam><spam>{{ dictTotales|access:detalle.id }}</spam></td>
+                  <td><button type="button" class="btn-editItem btn btn-default btn-sm">
+                      <span class="glyphicon glyphicon-edit"></span></button>
+                    <button type="button" class="btn-delItem btn btn-default btn-sm">
+                      <span class="glyphicon glyphicon-trash"></span></button>
+                    <button type="button" class="btn-obserItem btn btn-default btn-sm">
+                      <span class="glyphicon glyphicon-eye-open"></span></button>
                   </td>
                 </tr>
                {% endfor %}
             
-            <tr class="info">
+            <tr class="info subtotal">
                 <td colspan="6"><strong>Sub-Total</strong></td>
-                <td colspan="2" id="td-maestro-subtotal"><strong>$ {{ dictTotales|access:'subTotal'}}</strong></td>
+                <td colspan="2" id="td-maestro-subtotal"><strong>$</strong><strong>{{ dictTotales|access:'subTotal'}}</strong></td>
             </tr>
-            <tr class="info">
+            <tr class="info iva">
                 <td colspan="6"><strong>IVA</strong></td>
-                <td colspan="2" id="td-maestro-iva"><strong>$ {{ dictTotales|access:'ivaTotal'}}</strong></td>
+                <td colspan="2" id="td-maestro-iva"><strong>$</strong><strong>{{ dictTotales|access:'ivaTotal'}}</strong></td>
             </tr>
-            <tr class="info">
+            <tr class="info total">
                 <td colspan="6"><strong>Total</strong></td>
-                <td colspan="2" id="td-maestro-total"><strong>$ {{ dictTotales|access:'granTotal'}}</strong></td>
+                <td colspan="2" id="td-maestro-total"><strong>$</strong><strong>{{ dictTotales|access:'granTotal'}}</strong></td>
             </tr>
             </tbody>
           </table>
@@ -245,27 +235,46 @@
             <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
             <h4 class="modal-title" id="myModalLabel">Pedido: 1</h4>
           </div>
-          <div class="modal-body">
+          <div class="modal-body" style="width:300px">
             <p align="center">
               PASTELERIA LA LUCERNA S.A.S <br/>
               Nit: 891410059 REGIMEN COMUN <br/>
               CL 19 NO 6-43 <br/>
               Teléfono: 3250251 <br/>
               Ciudad: Pereira <br/>
+              Fecha Hora Impr.: 11/10/2014 - 17:15:22
             </p>
             <p>
-              Cliente: Público General
-              CC/Nit: 
-              Dirección:
-              Teléfono:
+              Factura de venta - No CA12345<br/>
+              Fecha: 11/10/2014 Hora: 17:54<br/>
+              Cajero: Cajero Admin<br/>
+              Caja: No. 1<br/>
+              <div>_______________________________</div>
+              Cliente: Público General<br/>
+              CC/Nit: <br/>
+              Dirección: AV SUR 50-03 BL6 APTO 205
+              Teléfono: 3407030
             </p>
-            <table class="table-responsive">
-              <tr><th>Producto</th><th>Cant.</th><th>Valor</th></tr>
+            <table class="table-responsive" style="width:300px">
+              <tr><th width="50%">Producto</th><th width="50%">Cant.</th><th width="50%">Valor</th></tr>
+              <tr><td>ensalada cesar con un toque de esencias especiales</td><td>1</td><td>1500</td></tr>
+              <tr><td>Pandebono</td><td>1</td><td>2000</td></tr>
               <tr><td>Gaseosa 350</td><td>1</td><td>1500</td></tr>
-              <tr><td>Pandebono</td><td>1</td><td>1000</td></tr>
-              <tr><td>Empanada</td><td>1</td><td>800</td></tr>
-              <tr><td colspan="2">Total</td><td>3300</td></tr>
-            </table>  
+              <tr><td>Impuesto 8%</td><td>1</td><td>280</td></tr>
+              <tr><td colspan="2">Total</td><td>3780</td></tr>
+              <tr><td colspan="2">Valor Entregado</td><td>4000</td></tr>
+              <tr><td colspan="2">Cambio</td><td>220</td></tr>
+            </table> 
+            <p>
+              AUTORIZACION NUMERACION SEGUN RESOLUCION<br/>
+              No. 160000099815 del 06/06/2013<br/>
+              del 1300460 al CA5-10000000<br/>
+              GRACIAS POR SU COMPRA<br/>
+            </p>
+            <p>
+              IPOS - www.softwarenaranja.com<br/>
+              Telefono: 3407030
+            </p> 
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
@@ -316,5 +325,77 @@
           </div>
         </div><!-- /.modal-content -->
       </div><!-- /.modal-dialog -->
-    </div><!-- /.modal -->        
+    </div><!-- /.modal -->
+
+<!-- Formulario registro_pago -->
+    <div class="modal fade" id="registrar_pago">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            <h4 class="modal-title">Registrar pago.</h4>
+          </div>
+          <div class="modal-body">
+            <form  id="frm-registro" class="form-horizontal" role="form" action="">
+              <div class="form-group">
+                <label for="vlr-pagar" class="col-lg-4 control-label">Valor a pagar:</label>
+                <div class="col-lg-8">
+                  <span class="input-group-lg">
+                    <input type="text" class="form-control" id="vlr-pagar" name="vlr-pagar" placeholder="Valor efectivo" readonly="true"> 
+                  </span>
+                </div>
+                <label for="efectivo" class="col-lg-4 control-label">Efectivo:</label>
+                <div class="col-lg-8">
+                  <span class="input-group-lg">
+                    <input type="text" class="form-control" id="vlr-efectivo" name="vlr-efectivo" placeholder="Valor efectivo"> 
+                  </span>
+                </div>
+                <label for="debito" class="col-lg-4 control-label">T. Débito:</label>
+                <div class="col-lg-8">
+                  <span class="input-group-lg">
+                    <input type="text" class="form-control" id="vlr-tDebito" name="vlr-tDebito" placeholder="Valor tarjeta débito"> 
+                  </span>
+                </div>
+                <label for="credito" class="col-lg-4 control-label">T. Crédito:</label>
+                <div class="col-lg-8">
+                  <span class="input-group-lg">
+                    <input type="text" class="form-control" id="vlr-tCredito" name="vlr-tCredito" placeholder="Valor tarjeta Crédito"> 
+                  </span>
+                </div>
+                <label for="propina" class="col-md-4 control-label">Propina:</label>
+                <div class="col-lg-8 col-md-8">
+                  <div class="input-group input-group-lg">
+                    <input type="text" class="form-control" id="propina_p" name="propina_p" placeholder="Propina" value="{{ventaMaestro.valorPropina|default_if_none:"nothing"}}">
+                    <span class="input-group-btn">
+                      <button type="button" class="btn btn-default btn-lg">%</button>
+                      <button type="button" class="btn btn-default btn-lg">$</button>
+                    </span>
+                  </div>
+                </div>
+                <label for="descuento" class="col-md-4 control-label">Descuento:</label>
+                <div class="col-lg-8 col-md-8">
+                  <div class="input-group input-group-lg">
+                    <input type="text" class="form-control" id="descuento_p" name="descuento_p" placeholder="Descuento" value="{{ventaMaestro.valorDescuento|default_if_none:"nothing"}}">
+                    <span class="input-group-btn">
+                      <button type="button" class="btn btn-default btn-lg">%</button>
+                      <button type="button" class="btn btn-default btn-lg">$</button>
+                    </span>
+                  </div>
+                </div>
+                <label for="vlr-cambio" class="col-lg-4 control-label">Cambio:</label>
+                <div class="col-lg-8">
+                  <span class="input-group-lg">
+                    <input type="text" class="form-control" id="vlr-cambio" name="vlr-cambio" placeholder="Cambio" readonly="true"> 
+                  </span>
+                </div>
+              </div>
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default btn-lg" data-dismiss="modal">Cerrar</button>
+            <button type="button" class="btn btn-primary btn-lg">Imprimir</button>
+          </div>
+        </div><!-- /.modal-content -->
+      </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
 {% endblock %}
