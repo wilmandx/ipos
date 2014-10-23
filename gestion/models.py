@@ -38,3 +38,10 @@ class DivPolitica(models.Model):
 		verbose_name_plural = u'Ciudades'
 	def __str__(self):
 		return self.nombre
+
+class Constante(models.Model):
+	nombre=models.CharField(max_length=50)
+	descripcion=models.CharField(max_length=500,blank=True, null=True)
+	valor=models.CharField(max_length=100)
+	def __str__(self):
+		return self.nombre

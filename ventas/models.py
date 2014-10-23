@@ -10,6 +10,7 @@ class VentaMaestro(models.Model):
 	fechaVenta = models.DateTimeField(auto_now_add=True)
 	cliente = models.ForeignKey(User,related_name='+')
 	vendedor = models.ForeignKey(User,related_name='+')
+	cajero = models.ForeignKey(User,related_name='+')
 	mesa = models.IntegerField(default=1)
 	valorPropina = models.IntegerField(default=0)
 	nroAprobacionTC = models.IntegerField(default=0)
