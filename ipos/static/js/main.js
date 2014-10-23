@@ -142,6 +142,11 @@ function iniciarVentas(){
 			saveDetalle();
 		}
 	);
+	$('#btn-imprimir').click(
+		function(){
+			Print('facturita');
+		}
+	);
 	$('#cantidad_p').keyup(function() {
 	  cantidad=parseInt($(this).val());
 	  $('#valort_p').val(cantidad*parseInt($('#unitario_p').val()));
@@ -272,14 +277,14 @@ function deleteDetalle(boton){
   	});
 }
 
-function Print() {
+function Print(div_id) {
    var printWin = window.open('', '', 'left=0,top=0,width=300,height=600,status=0');
-    var toPrint = document.getElementById('facturita').innerHTML;
+    var toPrint = document.getElementById(div_id).innerHTML;
     printWin.document.open();
     printWin.document.write(toPrint);
     printWin.document.close();
     printWin.focus();
-    printWin.print();
+    printWin.print(true);
     printWin.close();
     console.log('imprimir...');
     return false;
