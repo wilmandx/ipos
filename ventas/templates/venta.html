@@ -24,9 +24,9 @@
         </ul>
         <form id="frm-buscar" class="navbar-form navbar-left" role="search" action="/ventas/fac/">
           <div class="form-group">
-            <input type="text" class="form-control" placeholder="Busqueda por factura o mesa (Codigo)" name="nroFact" size="30">
+            <input type="text" class="form-control" placeholder="Factura o mesa" name="nroFact" size="30">
           </div> 
-          <button type="button" class="btn btn-default btn-md">
+          <button type="button" class="btn btn-default btn-md" id="btn-buscarfactura">
           <span class="glyphicon glyphicon-search"></span></button>  
         </form>
         <ul class="nav navbar-nav">
@@ -98,9 +98,9 @@
               <input type="text" class="form-control" id="mesa_p" name="mesa_p" placeholder="Mesa" value="{{ventaMaestro.mesa}}">
             </div>
           </div>
-          <label for="mesa" class="col-md-1 control-label">Opciones:</label>
+          <label for="mesa" class="col-md-1 control-label"></label>
           <div class="btn-lg col-md-5">
-            <button type="button" class="btn btn-primary btn-lg" id="btn-registrar-maestro">Guardar maestro</button>
+            <button type="button" class="btn btn-primary btn-lg" id="btn-registrar-maestro">Guardar</button>
           </div>
         </div>        
       </div>
@@ -250,18 +250,19 @@
               Fecha: 11/10/2014 Hora: 17:54<br/>
               Cajero: Cajero Admin<br/>
               Caja: No. 1<br/>
-              <div>_______________________________</div>
+              <div>__________________________________</div>
               Cliente: Público General<br/>
               CC/Nit: <br/>
               Dirección: AV SUR 50-03 BL6 APTO 205
               Teléfono: 3407030
             </p>
             <table class="table-responsive" style="width:300px">
-              <tr><th width="50%">Producto</th><th width="50%">Cant.</th><th width="50%">Valor</th></tr>
+              <tr><th width="70%">Producto</th><th width="10%">Cant.</th><th width="20%">Valor</th></tr>
               <tr><td>ensalada cesar con un toque de esencias especiales</td><td>1</td><td>1500</td></tr>
               <tr><td>Pandebono</td><td>1</td><td>2000</td></tr>
               <tr><td>Gaseosa 350</td><td>1</td><td>1500</td></tr>
-              <tr><td>Impuesto 8%</td><td>1</td><td>280</td></tr>
+              <tr><td colspan="3">___________________________________</td></tr>
+              <tr><td colspan="2">Impuesto 8%</td><td>280</td></tr>
               <tr><td colspan="2">Total</td><td>3780</td></tr>
               <tr><td colspan="2">Valor Entregado</td><td>4000</td></tr>
               <tr><td colspan="2">Cambio</td><td>220</td></tr>

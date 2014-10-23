@@ -147,6 +147,7 @@ def savePedido(request):
 		factura=VentaMaestro()
 	factura.cliente=User(id=(int(request.POST['idcliente_p']),1)[request.POST['idcliente_p']==''])
 	factura.vendedor=User(id=(int(request.POST['idvendedor_p']),1)[request.POST['idvendedor_p']==''])
+	factura.cajero=request.user
 	#factura.valorPropina=int((request.POST['propina_p'],'0')[request.POST['propina_p']==''])
 	factura.mesa=int((request.POST['mesa_p'],'0')[request.POST['mesa_p']==''])
 	factura.save()
