@@ -1,5 +1,26 @@
 {% extends "mobile_layout.html" %}
 {% block content %}
+{% load staticfiles %}
+<style>
+#lblCant{	
+	display: inline-block;
+	height: 30px;
+	padding-top: 2px;
+}
+#txtCant{
+	height: 23px;
+	padding: 2px;
+	min-height: 20px !important;
+}
+
+.ui-input-text{
+	margin: 0px !important;
+} 
+.ui-btn{
+	margin: 0px !important;	
+}
+</style>
+
 
 <div data-role="page" id="main">
 	<div class="ui-header ui-bar-a" data-swatch="a" data-theme="a" data-form="ui-bar-a" data-role="header" role="banner" style="background:#ffe9a8" data-position="fixed">
@@ -11,29 +32,117 @@
 		<div><input data-type="search" id="searchForCollapsibleSetChildren"></div>	
 		<div data-role="collapsible-set" data-filter="true" data-children="> div, > div div ul li" data-inset="true" id="collapsiblesetForFilterChildren" data-input="#searchForCollapsibleSetChildren">		
 			{% for key,categoria in list_categories.items %}			
-			<div data-role="collapsible" data-inset="false" data-mini="true" data-iconpos="right" data-collapsed-icon="carat-d" and data-expanded-icon="carat-u">		    
+			<div data-role="collapsible" data-inset="false"  data-iconpos="right" data-collapsed-icon="carat-d" and data-expanded-icon="carat-u">		    
 			    <h3>{{categoria.tipoCategoria.nombre}}</h3>		    
 				    <ul data-role="listview" data-inset="false">
 			    	{% for producto in categoria.listProductos %}
 				        <li>
-				        	<span style="width:80%; display:inline-block" id="{{producto.id}}">{{producto.nombre}}</span>
-				        	<span style="width:20%; display:inline-block"> ${{producto.precio}}</span>
+				        	<span class="popdesc" onclick="abrirDescPrd('{{producto.nombre}}','{{producto.descripcion}}','{{producto.precio}}','{{producto.id}}')"  style="width:80%; display:inline-block" id="{{producto.id}}">
+				        		{{producto.nombre}}
+				        	</span>
+				        	<span class="popdesc"  style="width:20%; display:inline-block"> ${{producto.precio}}</span>
 				        </li>
 			        {% endfor %}
 				    </ul>			
 			</div><!-- /collapsible -->			
 			{% endfor %}			
 		</div>
+		<div id="listaprd"></div>
 	</div>
+	
+	<div data-role="popup" id="myPopupDialog" data-overlay-theme="b" style="width:300px">
+		<div data-role="header">
+			<h1><span id="nomprd">   </span></h1>
+		</div>
+		<div data-role="main" class="ui-content">
+			<p><img src="{% static "img/food.png" %}"></p>
+			<hr>
+			<p><b>Precio:     </b> $<span id="precioprd"></span></p>
+			<p><b>Descripcion:</b>  <span id="descprd">  </span></p>
+			<input type="hidden" value="" id="idprd">
+			<div style="width:30%; float:left;">
+	    	<label id="lblCant"><b>Cantidad:</b></label>
+			</div>
+		    <div style="width:30%; float:left;" >
+		    	<input type="text" name="txtCant" id="txtCant" value="1">
+			</div>
+			<div style="width:15%; float:right;" >
+			<input type="button" data-icon="plus" data-iconpos="notext" id="agregar" value="Icon only">
+			</div>
+			<div style="width:15%; float:right;" >
+			<input type="button" data-icon="minus" data-iconpos="notext" id="quitar" value="Icon only">
+		    </div>
+			<div style="clear:both"></div>
+		</div>
+
+		
+
+		<div data-role="footer">			
+				
+			<!--a data-rel="back" class="ui-btn-left ui-btn-corner-all ui-btn ui-icon-delete ui-btn-icon-notext" title=" Home " data-form="ui-icon" data-role="button" role="button"> Cerrar </a-->	
+			<nav data-role="navbar">
+				<ul>
+					<li><a href="#" id="aceptar" data-icon="check" data-rel="back">Aceptar</a></li>
+					<li><a href="#" id="cancelar" data-icon="delete" data-rel="back">Cancelar</a></li>				
+				</ul>
+			</nav>	
+		</div>
+	</div>
+	
  
-<footer data-role="footer" data-position="fixed">
+	<footer data-role="footer" data-position="fixed">
 		<nav data-role="navbar">
 			<ul>
 				<li><a href="Photos" data-icon="grid">Modificar</a></li>
-				<li><a href="Info" data-icon="info">Pedir</a></li>
+				<li><a href="#" id="info" data-icon="info">Pedir</a></li>
 			</ul>
 		</nav>
 	</footer>
+	
 </div>
+<script>
+	function abrirDescPrd(n,d,p,id){
+		$("#myPopupDialog").popup("open");
+		$('#nomprd').html(n);
+		$('#descprd').html(d);
+		$('#precioprd').html(p);
+		$('#idprd').val(id);
+	}
+	
+	var cantidad=0;
 
+	$('#agregar').click(function(){		
+		cantidad=$('#txtCant').val();
+		cantidad=parseInt(cantidad)+1;
+		$('#txtCant').val(cantidad);		
+	});	
+	$('#quitar').click(function(){
+		cantidad=$('#txtCant').val();
+		if(cantidad>0){
+			cantidad=parseInt(cantidad)-1;
+		}
+		$('#txtCant').val(cantidad);		
+	});
+	var fila=0;
+	var matriz = new Array(); 
+
+	$('#aceptar').unbind().click(function(){		
+		matriz[fila] = new Array($('#idprd').val(),$('#nomprd').html(),$('#txtCant').val());					
+		$('#txtCant').val(1);
+		$('#idprd').val("");
+		$('#listaprd').append(matriz[fila][0]+" - "+matriz[fila][1]+" - "+matriz[fila][2]+"<br>");
+		fila=fila+1;
+	});
+
+	$('#cancelar').click(function(){
+		$('#txtCant').val(1);
+	});
+
+	$('#info').click(function(){		
+		
+		for(cont=0;cont<matriz.length;cont++){
+
+		}
+	});
+</script>
 {% endblock %}
