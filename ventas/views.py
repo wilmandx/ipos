@@ -6,7 +6,9 @@ from django.http import HttpResponse
 import json
 from ventas.models import VentaMaestro,VentaDetalle
 from django.utils import formats
+from django.utils.dateformat import DateFormat
 from django.db.models import Q
+from django.utils.timezone import get_default_timezone
 
 # Create your views here.
 class Categoria:
@@ -15,6 +17,7 @@ class Categoria:
 @login_required
 def venta_desktop(request,nroFactura=None):
 	nroFactura=request.GET.get('nroFact',None)
+	print(get_default_timezone())
 	ventaMaestro=None
 	if nroFactura!=None : 
 		#si viene con una m es una mesa
@@ -151,8 +154,8 @@ def savePedido(request):
 	#factura.valorPropina=int((request.POST['propina_p'],'0')[request.POST['propina_p']==''])
 	factura.mesa=int((request.POST['mesa_p'],'0')[request.POST['mesa_p']==''])
 	factura.save()
-
-	response_text = {'nroFactura':factura.id,'fechaVenta':formats.date_format(factura.fechaVenta, "DATE_FORMAT"),'horaVenta':formats.date_format(factura.fechaVenta, "TIME_FORMAT")}
+	df = DateFormat(factura.fechaVenta)
+	response_text = {'nroFactura':factura.id,'fechaVenta':df.format('d/M/Y'),'horaVenta':df.format('h:i A')}
 	return HttpResponse(json.dumps(response_text), content_type="application/json")
 
 @login_required

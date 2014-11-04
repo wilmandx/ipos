@@ -142,6 +142,11 @@ function iniciarVentas(){
 			saveDetalle();
 		}
 	);
+	$('#frm-detalle button[type=reset]').click(
+		function(){
+			resetDetalle();
+		}
+	);
 	$('#btn-imprimir').click(
 		function(){
 			Print('facturita');
@@ -227,8 +232,23 @@ function saveDetalle(){
                       '<span class="glyphicon glyphicon-trash"></span></button>&nbsp;'+
                     '<button type="button" class="btn-obserItem btn btn-default btn-sm">'+
                       '<span class="glyphicon glyphicon-eye-open"></span></button>';
+    	//Validar si adicionar el row o reemplazar el existente
     	tr.append($('<td />').html(btnes));
-    	$('#tbl-detalles').prepend(tr);
+    	var rowEdicion=null;
+    	$('#tbl-detalles > tbody  > tr:not([class])').each(function(){
+			//console.log('tr id='+$(this));
+			//console.log($($(this).children()[0]).children()[0].innerHTML);
+			if ($('#iddetalle_p').val()==$($(this).children()[0]).children()[0].innerHTML)
+			{
+				rowEdicion=$(this);
+			}
+		});
+    	if (rowEdicion){
+    		rowEdicion.children().remove();
+    		rowEdicion.append(tr.children());
+    	}else{
+    		$('#tbl-detalles').prepend(tr);
+    	}
     	//Actualizar el gran total
     	grantotal=parseInt($('#tbl-detalles tr.total td:nth-child(2)').children()[1].innerHTML)+total;
     	granSubTotal=parseInt($('#tbl-detalles tr.subtotal td:nth-child(2)').children()[1].innerHTML)+valorSubtotal;
@@ -238,6 +258,9 @@ function saveDetalle(){
 
     	$('#frm-detalle').each (function(){
 		  this.reset();
+		  $('#iddetalle_p').val('');
+		  $('#idproducto_p').val('');
+		  $('#n_producto_p').val('');
 		});
 		$('#n_producto_p').focus().select();
 		eventosDetalleFactura();
@@ -263,6 +286,12 @@ function loadDetalle(boton){
 	$('#cantidad_p').focus().select();
 }
 
+function resetDetalle(){
+	//this.reset();
+	  $('#iddetalle_p').val('');
+	  $('#idproducto_p').val('');
+	  $('#n_producto_p').val('');
+}
 function deleteDetalle(boton){
 	tr=boton.parent().parent();
 	idDetalle=$(tr.children()[0]).children()[0].innerHTML;
