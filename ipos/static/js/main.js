@@ -137,6 +137,23 @@ function iniciarVentas(){
 			savePedido();
 		}
 	);
+	$('#btn-guardar-anyway').click(
+		function(){
+			$('#mdl-mesa-abierta').modal('hide');
+			savePedido(1);
+		}
+	);
+
+	$('#btn-buscar-anyway').click(
+		function(){
+			$('#mdl-mesa-abierta').modal('hide');
+			$('#frm-buscar [name=nroFact]').val('m'+$('#mesa_p').val());
+			$('#frm-buscar').submit();
+			
+		}
+	);
+	
+
 	$('#btn-add-detalle').click(
 		function(){
 			saveDetalle();
@@ -180,11 +197,17 @@ function eventosDetalleFactura(){
 	);
 }
 
-function savePedido(){
+function savePedido(anyway){
 	//labelButton=$(this).get();
-	ajax=$.post( "/ventas/save/", $("#frm-maestro").serialize());
+	if(anyway)
+		ajax=$.post( "/ventas/save/anyway/", $("#frm-maestro").serialize());
+	else
+		ajax=$.post( "/ventas/save/", $("#frm-maestro").serialize());
 	ajax.done(function( data ) {
     	//var factura = JSON.parse(data);
+    	if(data.code=='01'){
+    		$('#mdl-mesa-abierta').modal('show');
+    	}
     	$("#idFactura").val(data.nroFactura);
     	//$("#factura").val(data.nroFactura);
     	$("#idFacturaD").val(data.nroFactura);

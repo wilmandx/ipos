@@ -12,6 +12,7 @@ urlpatterns = patterns('',
     url(r'^codproducto/', views.codproducto, name='codproducto'),
     url(r'^nomproducto/', views.nomproducto, name='nomproducto'),
     url(r'^save/$', views.savePedido, name='save'),
+    url(r'^save/(?P<anyway>\w+)/$', views.savePedido, name='save'),
     url(r'^saveDetalle/$', views.saveDetalle, name='saveDetalle'),
     url(r'^deleteDetalle/(?P<id>\d+)/$', views.deleteDetalle, name='deleteDetalle'),  
 )

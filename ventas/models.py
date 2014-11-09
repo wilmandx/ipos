@@ -1,5 +1,4 @@
 from django.db import models
-from django.utils import timezone
 from gestion.models import ValorTipo
 from gestion.models import Producto
 from django.contrib.auth.models import User
@@ -26,6 +25,6 @@ class VentaDetalle(models.Model):
 	observaciones = models.TextField(blank=True, null=True)
 
 class PagoVentaMaestro(models.Model):
-	idVentaMaestro = models.IntegerField(default=0)
+	ventaMaestro = models.ForeignKey(VentaMaestro)
 	valorPago = models.IntegerField(default=0)
-	idTipoMedioPago = models.ForeignKey(ValorTipo)
+	tipoMedioPago = models.ForeignKey(ValorTipo)

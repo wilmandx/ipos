@@ -5,7 +5,6 @@ from django.contrib.auth.models import User
 from django.http import HttpResponse
 import json
 from ventas.models import VentaMaestro,VentaDetalle
-from django.utils import formats
 from django.utils.dateformat import DateFormat
 from django.db.models import Q
 from django.utils.timezone import get_default_timezone
@@ -141,7 +140,15 @@ def nomproducto(request):
 	return HttpResponse(response_text, content_type="application/json")
 
 @login_required
-def savePedido(request):
+def savePedido(request,anyway=None):
+	#Validar si se debe guardar anyway
+	#request.GET.get('anyway')
+	if anyway==None:
+		#Buscar si ya esta esa mesa con un pedido sin pagar
+		idMaestroDetalle=buscarPedido(int((request.POST['mesa_p'],'0')[request.POST['mesa_p']=='']))
+		if idMaestroDetalle:
+			response_text = {'code':'01'}#Ya existe un pedido para la mesa sin pagar
+			return HttpResponse(json.dumps(response_text), content_type="application/json")
 	idFactura = None
 	if request.POST['idFactura']!='':
 		idFactura=int(request.POST['idFactura'])
@@ -155,8 +162,12 @@ def savePedido(request):
 	factura.mesa=int((request.POST['mesa_p'],'0')[request.POST['mesa_p']==''])
 	factura.save()
 	df = DateFormat(factura.fechaVenta)
-	response_text = {'nroFactura':factura.id,'fechaVenta':df.format('d/M/Y'),'horaVenta':df.format('h:i A')}
+	response_text = {'code':'00','nroFactura':factura.id,'fechaVenta':df.format('d/M/Y'),'horaVenta':df.format('h:i A')}
 	return HttpResponse(json.dumps(response_text), content_type="application/json")
+
+def buscarPedido(nroMesa):
+	lista=VentaMaestro.objects.filter(mesa=nroMesa,pagoventamaestro__valorPago__gt=0)
+	return len(lista)
 
 @login_required
 def saveDetalle(request):
