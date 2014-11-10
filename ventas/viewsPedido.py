@@ -83,11 +83,6 @@ def venta_mobile(request):
 	return render(request, 'mobile/venta.html',context)
 
 @login_required
-def listar(request):
-    context = {'message':'ok'}
-    return render(request, 'listar/pedido.html',context)
-
-@login_required
 def clientes(request):
 	query = request.GET.get('q','')
 	if(len(query) > 0):
