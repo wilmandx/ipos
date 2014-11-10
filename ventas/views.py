@@ -4,7 +4,7 @@ from gestion.models import ValorTipo,Producto
 from django.contrib.auth.models import User
 from django.http import HttpResponse
 import json
-from ventas.models import VentaMaestro,VentaDetalle
+from ventas.models import VentaMaestro,VentaDetalle,PagoVentaMaestro
 from django.utils.dateformat import DateFormat
 from django.db.models import Q
 from django.utils.timezone import get_default_timezone
@@ -198,5 +198,26 @@ def saveDetalle(request):
 def deleteDetalle(request,id):
 	ventaDetalle=VentaDetalle.objects.get(id=id)
 	ventaDetalle.delete()
+	response_text = {'code':'00'}
+	return HttpResponse(json.dumps(response_text), content_type="application/json")
+
+@login_required
+def pagarPedido(request):
+	idFactura = None
+	print("id factura="+request.POST['idFactura'])
+	if request.POST['idFactura']!='':
+		idFactura=int(request.POST['idFactura'])
+		factura=VentaMaestro.objects.get(id=idFactura)
+	else:
+		response_text = {'code':'01'}#No se envio un identificador de pedido
+		return HttpResponse(json.dumps(response_text), content_type="application/json")
+	pago=PagoVentaMaestro()
+	pago.ventaMaestro=factura
+	pago.valorPago=(int(request.POST['vlr-efectivo']),0)[request.POST['vlr-efectivo']=='']
+	pago.tipoMedioPago=ValorTipo(id=1)
+	pago.save()
+	factura.valorPropina=int((request.POST['propina_p'],'0')[request.POST['propina_p']==''])
+	factura.descuento=int((request.POST['descuento_p'],'0')[request.POST['descuento_p']==''])
+	factura.save()
 	response_text = {'code':'00'}
 	return HttpResponse(json.dumps(response_text), content_type="application/json")

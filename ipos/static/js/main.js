@@ -159,6 +159,20 @@ function iniciarVentas(){
 			saveDetalle();
 		}
 	);
+	$('#btn-guardar-pago').click(
+		function(){
+			guardarPago();
+		}
+	);
+
+	$('#btn-pagar').click(
+		function(){
+			granTotal=parseInt($('#tbl-detalles tr.total td:nth-child(2)').children()[1].innerHTML)
+			$('#vlr-spagar').html('$ '+granTotal);
+			$('#vlr-tpagar').html('$ '+granTotal);
+		}
+	);
+
 	$('#frm-detalle button[type=reset]').click(
 		function(){
 			resetDetalle();
@@ -323,6 +337,27 @@ function deleteDetalle(boton){
     	tr.fadeOut("slow", function () {
             tr.remove();
         });
+  	});
+  	ajax.fail(function(data) {
+  		alert('Error');
+  	});
+}
+
+function guardarPago(){
+	//labelButton=$(this).get();
+	granTotal=parseInt($('#tbl-detalles tr.total td:nth-child(2)').children()[1].innerHTML)
+	if(granTotal==0){
+		alert('No se ha guardado o no ha agregado ningun item aun');
+		return;
+	}
+	ajax=$.post( "/ventas/pagar/", $("#frm-registro").serialize()+'&idFactura=26');
+	ajax.done(function( data ) {
+    	//var factura = JSON.parse(data);
+    	if(data.code=='00'){
+    		$('#registrar_pago').modal('hide');
+    		alert('Pago realizado exitosamente');
+    	}
+    	
   	});
   	ajax.fail(function(data) {
   		alert('Error');

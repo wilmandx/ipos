@@ -14,5 +14,6 @@ urlpatterns = patterns('',
     url(r'^save/$', views.savePedido, name='save'),
     url(r'^save/(?P<anyway>\w+)/$', views.savePedido, name='save'),
     url(r'^saveDetalle/$', views.saveDetalle, name='saveDetalle'),
-    url(r'^deleteDetalle/(?P<id>\d+)/$', views.deleteDetalle, name='deleteDetalle'),  
+    url(r'^deleteDetalle/(?P<id>\d+)/$', views.deleteDetalle, name='deleteDetalle'), 
+    url(r'^pagar/$', views.pagarPedido, name='pagarPedido'),
 )
