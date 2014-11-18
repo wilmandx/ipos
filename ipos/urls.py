@@ -8,5 +8,6 @@ urlpatterns = patterns('',
 
     url(r'^admin/', include(admin.site.urls)),
     url(r'^ventas/', include('ventas.urls',namespace="ventas")),
+    url(r'^gastos/', include('gastos.urls',namespace="gastos")),
     url(r'^$', 'ipos.views.home', name='home'),
 )

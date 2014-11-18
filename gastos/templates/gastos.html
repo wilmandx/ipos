@@ -1,0 +1,110 @@
+{% extends "base_layout.html" %}
+{% block content %}
+{% load security_tags %}
+<!--Barra de navegación-->
+<div class="col-lg-12 page-header">
+  <nav class="navbar navbar-default" role="navigation">
+    <div class="container-fluid">
+      <!-- Brand and toggle get grouped for better mobile display -->
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="#">Opciones</a>
+      </div>
+
+      <!-- Collect the nav links, forms, and other content for toggling -->
+      <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+        <ul class="nav navbar-nav">
+          <li class="active"><a href="#">Venta</a></li>
+          <li><a href="/ventas/"><font color="#0174DF">Nuevo</font></a></li>
+        </ul>
+        <form id="frm-buscar" class="navbar-form navbar-left" role="search" action="/ventas/fac/">
+          <div class="form-group">
+            <input type="text" class="form-control" placeholder="Factura o mesa" name="nroFact" size="30">
+          </div> 
+          <button type="button" class="btn btn-default btn-md" id="btn-buscarfactura">
+          <span class="glyphicon glyphicon-search"></span></button>  
+        </form>
+        <ul class="nav navbar-nav">
+          <li id="btn-anular"><a href="#">Anular</a></li>
+          <li><a href="#" id="btn-imprimir" data-toggle="modal" data-target="#venta">Imprimir</a></li>
+          <li><a href="#" id="btn-pagar" data-toggle="modal" data-target="#registrar_pago"><font color="#31B404"><strong>Registrar Pago</font></strong></a></li>
+        </ul>
+        <!--
+        <ul class="nav navbar-nav">
+          <li><button class="btn btn-danger btn-lg">Anular</button></li>
+          <li><button class="btn btn-primary btn-lg" data-toggle="modal" data-target="#venta">Imprimir</button></li>
+        </ul>
+        -->
+        <ul class="nav navbar-nav navbar-right">
+          <li><a href="/admin/logout">Salir</a></li>
+        </ul>
+      </div><!-- /.navbar-collapse -->
+    </div><!-- /.container-fluid -->
+  </nav>
+<!--Panel Maestro de venta -->
+  <form  id="frm-maestro" class="form-horizontal" role="form" action="">
+    {% csrf_token %}  
+    <div class="panel panel-primary">
+      <div class="panel-heading">
+        <h3 class="panel-title"><font size="3">Datos Maestro.</font></h3>
+      </div>  
+      <div class="panel-body"> 
+        <div class="form-group has-success">
+          <label for="factura" class="col-md-1 control-label">Factura:</label>
+          <div class="col-lg-5 col-md-5">
+            <span class="input-group-lg">
+              <input type="text" class="form-control" id="factura" name="factura" placeholder="Factura" size="20" readonly="true"> 
+              <input type="hidden" name="idFactura" id="idFactura" value="{{ventaMaestro.id|default_if_none:""}}"> 
+            </span>
+          </div>
+          <label for="fecha" class="col-md-1 control-label">Fecha:</label>
+          <div class="col-lg-2 col-md-2">
+            <div class="input-group-lg">
+              <input type="text" class="form-control" id="fecha" name="fecha" placeholder="Fecha" readonly="true" value="{{ ventaMaestro.fechaVenta|date:"D d M Y" }}">
+             </div>
+          </div>
+          <label for="fecha" class="col-md-1 control-label">Hora:</label>
+          <div class="col-lg-2 col-md-2">
+            <div class="input-group-lg">
+             <input type="text" class="form-control" id="hora" name="hora" placeholder="Hora" readonly="true" value="{{ ventaMaestro.fechaVenta|time:"h:i A"}}">
+           </div>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="cliente" class="col-md-1 control-label">Cliente:</label>    
+          <div class="col-lg-5 col-md-5">
+            <div class="input-group input-group-lg">
+              <input type="text" class="form-control typeahead thead-lg" id="cliente_p" name="cliente_p" placeholder="Cliente" value="{{ventaMaestro.cliente.last_name}} {{ventaMaestro.cliente.first_name}}">
+              <input type="hidden" id="idcliente_p" name="idcliente_p" value="{{ventaMaestro.cliente.id}}">
+              <span class="input-group-btn">
+                <button type="button" class="btn btn-default btn-lg" data-toggle="modal" data-target="#cliente">+</button>
+              </span>
+            </div>
+          </div>
+        
+          <label for="vendedor" class="col-md-1 control-label">Vendedor:</label>    
+          <div class="col-lg-5 col-md-5">
+            <div class="input-group-lg">
+              <input type="text" class="form-control typeahead thead-lg" id="vendedor_p" name="vendedor_p" placeholder="Vendedor" value="{{ventaMaestro.vendedor.last_name}} {{ventaMaestro.vendedor.first_name}}">
+              <input type="hidden" id="idvendedor_p" name="idvendedor_p" value="{{ventaMaestro.vendedor.id}}" >
+            </div>
+          </div>
+        </div>
+          
+          <label for="mesa" class="col-md-1 control-label"></label>
+          <div class="btn-lg col-md-5">
+            <button type="button" class="btn btn-primary btn-lg" id="btn-registrar-maestro">Guardar</button>
+          </div>
+        </div>        
+      </div>
+    </div>
+  </form>
+  
+  <div class="panel-footer"><a href="http://www.softwarenaranja.com">Informes y ventas</a> Todos los derechos reservados - &copy Copyright 2014 - ipos++</div>
+
+{% endblock %}
