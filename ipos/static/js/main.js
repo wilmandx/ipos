@@ -169,7 +169,9 @@ function iniciarVentas(){
 		function(){
 			granTotal=parseInt($('#tbl-detalles tr.total td:nth-child(2)').children()[1].innerHTML)
 			$('#vlr-spagar').html('$ '+granTotal);
-			$('#vlr-tpagar').html('$ '+granTotal);
+			propina=parseInt($('#propina_p').val());
+			descuento=parseInt($('#descuento_p').val());
+			$('#vlr-tpagar').html('$ '+(granTotal+propina-descuento));
 		}
 	);
 
@@ -186,6 +188,28 @@ function iniciarVentas(){
 	$('#cantidad_p').keyup(function() {
 	  cantidad=parseInt($(this).val());
 	  $('#valort_p').val(cantidad*parseInt($('#unitario_p').val()));
+	});
+
+	$('#propina_p').keyup(function() {
+	  propina=parseInt($('#propina_p').val());
+	  descuento=parseInt($('#descuentotal_p').val());
+	  granTotal=parseInt($('#tbl-detalles tr.total td:nth-child(2)').children()[1].innerHTML)
+	  $('#vlr-tpagar').html(granTotal+propina-descuento);
+	});
+
+	$('#descuentotal_p').keyup(function() {
+	  propina=parseInt($('#propina_p').val());
+	  descuento=parseInt($('#descuentotal_p').val());
+	  granTotal=parseInt($('#tbl-detalles tr.total td:nth-child(2)').children()[1].innerHTML)
+	  $('#vlr-tpagar').html(granTotal+propina-descuento);
+	});
+
+	$('#vlr-efectivo').keyup(function() {
+	  efectivo=parseInt($(this).val());
+	  propina=parseInt($('#propina_p').val());
+	  descuento=parseInt($('#descuentotal_p').val());
+	  granTotal=parseInt($('#tbl-detalles tr.total td:nth-child(2)').children()[1].innerHTML)
+	  $('#vlr-cambio').html(efectivo-(granTotal+propina-descuento));
 	});
 	eventosDetalleFactura();
 	
